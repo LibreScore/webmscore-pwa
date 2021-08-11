@@ -1,0 +1,12 @@
+Batch files, all variables must be done as arrays instead
+Handle batch files (maybe use folder import as well)
+Add loading icon on buttons when waiting for metadata
+Use snackbars for errors
+Midi add option to restart in boost mode
+Allow user to select font and sound font
+Internationalize, follow musescore translations
+Bug test to make sure all errors are handled
+Option to combine PDF parts into one file (add the "-Parts" suffix)
+Xmader must fix handling of midi files
+
+Move Phabricator tasks somewhere else or try switching to Phorge
