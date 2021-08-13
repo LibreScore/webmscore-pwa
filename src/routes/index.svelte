@@ -26,19 +26,19 @@
 	import MetadataOptions from '../components/metadataOptions.svelte';
 	import WebMscore from 'webmscore';
 
-	let score: WebMscore;
-	let title;
+	let scores: WebMscore[] = [];
+	let titles: String[] = [];
 	let blob: Blob = new Blob();
 	let zip = new JSZip();
 	//@ts-ignore
-	let blobs: FileWithHandle = blob;
+	let newBlobs: FileWithHandle[] = [blob];
 	//@ts-ignore
-	let oldBlobs: FileWithHandle;
-	let msczMetadata = 'No file metadata.';
-	let fileName = 'No file loaded.';
+	let newOldBlobs: FileWithHandle[] = [];
+	//@ts-ignore
+	let msczMetadatas: String[] = [];
+	let fileNames: String[] = ['No file loaded.'];
 	let errorMessage = 'Unknown error.';
 	let scoreLoaded = false;
-	let npages = 1;
 	let progress = 0;
 	let minUpdate = 0;
 	let sliderIsDisabled = true;
@@ -61,27 +61,7 @@
 		'Metadata'
 	];
 
-	let items = [
-		{
-			id: -1,
-			parts: [
-				{
-					harmonyCount: 0,
-					hasDrumStaff: '',
-					hasPitchedStaff: '',
-					hasTabStaff: '',
-					instrumentId: '',
-					instrumentName: '',
-					isVisible: '',
-					lyricCount: 0,
-					name: '',
-					program: 0
-				}
-			],
-			title: 'Full Score'
-		}
-	];
-	let selected = [items[items.findIndex((part) => part.id === -1)].id];
+	let batchMode = false;
 	let convertIsDisabled = true;
 	let downloadIsDisabled = true;
 	let optionsAreDisabled = true;
@@ -91,9 +71,8 @@
 
 	function updateConvertDisabled() {
 		if (
-			blobs.size !== 0 &&
+			newBlobs[0].size !== 0 &&
 			exportType != '' &&
-			selected.length !== 0 &&
 			exportTypes.includes(exportType) &&
 			!fileIsLoading
 		) {
@@ -105,21 +84,16 @@
 		downloadIsDisabled = true;
 	}
 
-	//@ts-ignore
-	$: selected, updateConvertDisabled();
-
-	function selectAll() {
-		selected = items.map((item) => item.id);
-	}
-
-	function clearSelection() {
-		selected = [];
-	}
-
 	async function handleMscz() {
+		scores = [];
+		titles = [];
+		msczMetadatas = [];
+		fileNames = [];
+		let tempScores = [];
+
 		convertIsDisabled = true;
 		//@ts-ignore
-		blobs = await fileOpen([
+		newBlobs = await fileOpen([
 			{
 				mimeTypes: [
 					'application/x-musescore',
@@ -148,7 +122,8 @@
 					'.ptb'
 				],
 				description: 'All Supported Files',
-				id: 'uploads'
+				id: 'uploads',
+				multiple: true
 			},
 			{
 				mimeTypes: ['application/x-musescore', 'application/x-musescore+xml'],
@@ -207,88 +182,103 @@
 			// }
 		]).catch(() => {
 			convertIsDisabled = false;
-			return oldBlobs;
+			return newOldBlobs;
 		});
 
-		if (oldBlobs === blobs) {
+		if (newOldBlobs === newBlobs) {
 			return;
 		}
 
-		oldBlobs = blobs;
+		batchMode = newBlobs.length > 1 ? true : false;
 
-		let fileExt = blobs.name.substring(blobs.name.lastIndexOf('.') + 1);
-		if (fileExt === 'mid') {
-			fileExt = 'midi';
-		}
-		if (
-			![
-				'gp',
-				'gp3',
-				'gp4',
-				'gp5',
-				'gpx',
-				'gtp',
-				'kar',
-				'midi',
-				'mscx',
-				'mscz',
-				'musicxml',
-				'mxl',
-				'ptb',
-				'xml'
-			].includes(fileExt)
-		) {
-			errorMessage = 'Invalid file extension.';
-			loadingSnackbar.open();
-			return;
-		}
+		newOldBlobs = newBlobs;
 
-		fileName = blobs.name;
-		if (scoreLoaded) {
-			score.destroy();
-		}
-
-		WebMscore.ready.then(async () => {
-			fileIsLoading = true;
-			score = await WebMscore.load(fileExt, new Uint8Array(await blobs.arrayBuffer())).then(
-				async (loaded) => {
-					await loaded.setSoundFont(
-						new Uint8Array(
-							await (
-								await fetch(
-									'https://cdn.jsdelivr.net/gh/musescore/MuseScore@2.1/share/sound/FluidR3Mono_GM.sf3'
-								)
-							).arrayBuffer()
-						)
-					);
-					await loaded.generateExcerpts();
-					await loaded.metadata().then(async (meta) => {
-						msczMetadata = JSON.stringify(meta);
-						items = [items[0]];
-						meta.excerpts.forEach((part) => items.push(part));
-					});
-					title = await loaded.title();
-					npages = await loaded.npages();
-					fileIsLoading = false;
-					minUpdate = 1;
-					sliderIsDisabled = false;
-					return loaded;
-				}
-			);
-			if (exportType !== '') {
-				convertIsDisabled = false;
-				optionsAreDisabled = false;
-				scoreLoaded = true;
-			} else {
-				convertIsDisabled = true;
+		for (let [index, blobs] of newBlobs.entries()) {
+			let fileExt = blobs.name.substring(blobs.name.lastIndexOf('.') + 1);
+			if (fileExt === 'mid') {
+				fileExt = 'midi';
 			}
-		});
+			if (
+				![
+					'gp',
+					'gp3',
+					'gp4',
+					'gp5',
+					'gpx',
+					'gtp',
+					'kar',
+					'midi',
+					'mscx',
+					'mscz',
+					'musicxml',
+					'mxl',
+					'ptb',
+					'xml'
+				].includes(fileExt)
+			) {
+				errorMessage = 'Invalid file extension.';
+				loadingSnackbar.open();
+				return;
+			}
+
+			fileNames.push(blobs.name);
+			// if (scoreLoaded) {
+			// 	score.destroy();
+			// }
+
+			WebMscore.ready.then(async () => {
+				fileIsLoading = true;
+				tempScores.push({
+					scoreBlob: await WebMscore.load(fileExt, new Uint8Array(await blobs.arrayBuffer())).then(
+						async (loaded) => {
+							await loaded.setSoundFont(
+								new Uint8Array(
+									await (
+										await fetch(
+											'https://cdn.jsdelivr.net/gh/musescore/MuseScore@2.1/share/sound/FluidR3Mono_GM.sf3'
+										)
+									).arrayBuffer()
+								)
+							);
+							msczMetadatas.push(JSON.stringify(await loaded.metadata()));
+							titles.push(await loaded.title());
+							minUpdate = 1;
+							sliderIsDisabled = false;
+							return loaded;
+						}
+					),
+					scoreIndex: index
+				});
+				if (tempScores.length === newBlobs.length) {
+					msczMetadatas.sort(
+						(a, b) =>
+							tempScores[msczMetadatas.indexOf(a)].scoreIndex -
+							tempScores[msczMetadatas.indexOf(b)].scoreIndex
+					);
+					titles.sort(
+						(a, b) =>
+							tempScores[titles.indexOf(a)].scoreIndex - tempScores[titles.indexOf(b)].scoreIndex
+					);
+					scores = tempScores
+						.sort((a, b) => a.scoreIndex - b.scoreIndex)
+						.map((value) => value.scoreBlob);
+					fileIsLoading = false;
+					if (exportType !== '') {
+						convertIsDisabled = false;
+						optionsAreDisabled = false;
+						scoreLoaded = true;
+					} else {
+						convertIsDisabled = true;
+					}
+				}
+			});
+		}
 	}
 
 	async function saveFile() {
 		let fileExtension = '.';
-		let partsLength = selected.length;
-		let partsPages: number[] = [];
+		let scoresLength = scores.length;
+		let scoresPages: number[] = [];
 		convertIsDisabled = true;
 		downloadIsDisabled = true;
 		convertIsProcessing = true;
@@ -297,21 +287,19 @@
 		zip = new JSZip();
 
 		if (exportType === 'PNG' || exportType == 'SVG') {
-			selected.forEach(async (excerptId, index) => {
-				score.setExcerptId(excerptId);
-				partsPages.push(await score.npages());
+			for (let [index, score] of scores.entries()) {
+				scoresPages[index] = await score.npages();
 
-				if (index === partsLength - 1) {
-					let pagesLength = partsPages.reduce((a, b) => a + b, 0);
+				if (index === scoresLength - 1) {
+					let pagesLength = scoresPages.reduce((a, b) => a + b, 0);
 
-					selected.forEach(async (excerptIdNew, indexNew) => {
-						score.setExcerptId(excerptIdNew);
-						[...Array(partsPages[indexNew]).keys()].forEach(async (_, i) => {
+					for (let [indexNew, scoreNew] of scores.entries()) {
+						for (let i of [...Array(scoresPages[indexNew]).keys()]) {
 							if (exportType === 'PNG') {
 								blob = await new Blob(
 									[
 										await (
-											await score.savePng(
+											await scoreNew.savePng(
 												i,
 												$exportOptions.drawPageBackground,
 												$exportOptions.transparent
@@ -324,29 +312,27 @@
 								);
 								fileExtension = '.png';
 							} else if (exportType === 'SVG') {
-								blob = await new Blob([await score.saveSvg(i, $exportOptions.drawPageBackground)], {
-									type: 'image/svg+xml'
-								});
+								blob = await new Blob(
+									[await scoreNew.saveSvg(i, $exportOptions.drawPageBackground)],
+									{
+										type: 'image/svg+xml'
+									}
+								);
 								fileExtension = '.svg';
 							}
 
 							if (blob.size != 0) {
-								let fileSuffix =
-									'-' +
-									items[items.findIndex((part) => part.id === excerptIdNew)].title +
-									'-' +
-									(i + 1).toString();
-								if (excerptIdNew == -1) {
-									fileSuffix = '-' + (i + 1).toString();
-								}
+								let fileSuffix = '-' + (i + 1).toString();
 								zip.file(
-									fileName.substring(0, fileName.lastIndexOf('.')) + fileSuffix + fileExtension,
+									fileNames[indexNew].substring(0, fileNames[indexNew].lastIndexOf('.')) +
+										fileSuffix +
+										fileExtension,
 									blob
 								);
 								progress += 1 / pagesLength;
 							}
 
-							if (indexNew === partsLength - 1 && i === partsPages[indexNew] - 1) {
+							if (indexNew === scoresLength - 1 && i === scoresPages[indexNew] - 1) {
 								progress = 1;
 								isZipping = true;
 								blob = await zip.generateAsync({ type: 'blob' }).then((zipped) => {
@@ -355,13 +341,12 @@
 									return zipped;
 								});
 							}
-						});
-					});
+						}
+					}
 				}
-			});
+			}
 		} else {
-			selected.forEach(async (excerptId, index) => {
-				score.setExcerptId(excerptId);
+			for (let [index, score] of scores.entries()) {
 				switch (exportType) {
 					case 'PDF':
 						blob = await new Blob([await (await score.savePdf()).buffer], {
@@ -451,15 +436,11 @@
 				}
 
 				if (blob.size != 0) {
-					let fileSuffix = '-' + items[items.findIndex((part) => part.id === excerptId)].title;
-					if (excerptId == -1) {
-						fileSuffix = '';
-					}
 					zip.file(
-						fileName.substring(0, fileName.lastIndexOf('.')) + fileSuffix + fileExtension,
+						fileNames[index].substring(0, fileNames[index].lastIndexOf('.')) + fileExtension,
 						blob
 					);
-					progress += 1 / partsLength;
+					progress += 1 / scoresLength;
 
 					// await fileSave(blob, {
 					// 	fileName:
@@ -470,7 +451,7 @@
 					// });
 				}
 
-				if (index === partsLength - 1) {
+				if (index === scoresLength - 1) {
 					progress = 1;
 					isZipping = true;
 					blob = await zip.generateAsync({ type: 'blob' }).then((zipped) => {
@@ -479,7 +460,7 @@
 						return zipped;
 					});
 				}
-			});
+			}
 
 			// score.destroy;
 			// score.setSoundFont;
@@ -500,7 +481,7 @@
 <div class="fileHandling">
 	<Button variant="outlined" on:click={handleMscz}>
 		<Icon class="material-icons-outlined">file_upload</Icon>
-		<Label>Select File</Label>
+		<Label>Select Files</Label>
 	</Button>
 	<Select
 		style="margin: 8px 0px 0px 0px;"
@@ -540,7 +521,7 @@
 			color="secondary"
 			variant="raised"
 			href={window.URL.createObjectURL(blob)}
-			download={title + '.zip'}
+			download={titles.join(', ') + '.zip'}
 		>
 			<Icon class="material-icons-outlined">file_download</Icon>
 			<Label>Download</Label>
@@ -548,9 +529,17 @@
 	{/if}
 	{#if !fileIsLoading}
 		{#if !convertIsProcessing}
-			<p class="mdc-typography--subtitle1">{fileName}</p>
+			<p class="mdc-typography--subtitle1">
+				{#each fileNames as fileName}
+					{fileName}<br />
+				{/each}
+			</p>
 		{:else}
-			<p class="mdc-typography--subtitle1" style="margin: 12px 0px 16px 0px">{fileName}</p>
+			<p class="mdc-typography--subtitle1" style="margin: 12px 0px 16px 0px">
+				{#each fileNames as fileName}
+					{fileName}<br />
+				{/each}
+			</p>
 		{/if}
 	{:else}
 		<CircularProgress style="height: 28px; width: 28px; margin: 16px 0px" indeterminate />
@@ -559,27 +548,6 @@
 </div>
 {#if !optionsAreDisabled}
 	<div class="options">
-		<div class="partOptions">
-			<Card variant="outlined" style="flex: 1;">
-				<Content class="mdc-typography--subtitle2">What to export</Content>
-				<List checkList>
-					{#each items as item}
-						<Item>
-							<Checkbox bind:group={selected} value={item.id} />
-							<Label>{item.title}</Label>
-						</Item>
-					{/each}
-				</List>
-				<Group variant="outlined" style="display: flex;">
-					<Button on:click={selectAll} variant="outlined" style="flex: auto;"
-						><Label>Select all</Label></Button
-					>
-					<Button on:click={clearSelection} variant="outlined" style="flex: auto;"
-						><Label>Clear selection</Label></Button
-					>
-				</Group>
-			</Card>
-		</div>
 		<div class="fileOptions">
 			<Card class="fileOption" variant="outlined" style="flex: 1;">
 				<Content class="mdc-typography--subtitle2">Export options</Content>
@@ -587,9 +555,9 @@
 					{#if exportType === 'PDF'}
 						<PdfOptions />
 					{:else if exportType === 'PNG'}
-						<PngOptions {npages} />
+						<PngOptions />
 					{:else if exportType === 'SVG'}
-						<SvgOptions {npages} />
+						<SvgOptions />
 					{:else if exportType === 'MP3'}
 						<Mp3Options />
 					{:else if exportType === 'WAV'}
@@ -634,7 +602,6 @@
 		justify-content: space-around;
 	}
 
-	.partOptions,
 	.fileOptions {
 		display: flex;
 		flex-direction: column;

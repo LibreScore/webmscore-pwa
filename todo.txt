@@ -1,5 +1,6 @@
-Batch files, all variables must be done as arrays instead
 Handle batch files (maybe use folder import as well)
+Fix bug of zip title being removed after messing with file inputs in batch mode
+Detect when in batch mode automatically
 Add loading icon on buttons when waiting for metadata
 Use snackbars for errors
 Midi add option to restart in boost mode
