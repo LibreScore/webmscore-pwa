@@ -1,3 +1,7 @@
+# Webmscore PWA
+
+The official frontend for the webmscore tool: https://k51qzi5uqu5dkr757bmyx40xo0b74e7abr0c7az47wor7helkjwwnfrxemj80i.ipns.dweb.link/
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
