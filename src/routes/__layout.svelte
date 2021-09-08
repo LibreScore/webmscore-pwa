@@ -1,7 +1,6 @@
 <script>
 	import TopAppBar, { Row, Section, Title, AutoAdjust } from '@smui/top-app-bar';
 	import IconButton, { Icon } from '@smui/icon-button';
-	import Tooltip, { Wrapper } from '@smui/tooltip';
 
 	let topAppBar;
 	let lightTheme =
