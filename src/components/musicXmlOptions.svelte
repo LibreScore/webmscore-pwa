@@ -1,16 +1,13 @@
 <script>
 	import { exportOptions } from '../stores.js';
 	import Select, { Option } from '@smui/select';
+	import { t } from '$lib/i18n/i18n';
 
-	let options = [
-		'Compressed (*.mxl)',
-		'Uncompressed (*.musicxml)',
-		'Uncompressed (outdated) (*.xml)'
-	];
-	let selectedOption = 'Compressed (*.mxl)';
+	$: options = [$t('mxl_option'), $t('musicxml_option'), $t('xml_option')];
+	$: selectedOption = $t('mxl_option');
 
 	function setOptions() {
-		if (selectedOption === 'Compressed (*.mxl)') {
+		if (selectedOption === $t('mxl_option')) {
 			$exportOptions.compress = true;
 		} else {
 			$exportOptions.compress = false;
@@ -22,7 +19,7 @@
 	variant="outlined"
 	bind:value={selectedOption}
 	on:click={setOptions}
-	label="MusicXML file type"
+	label={$t('musicxml_filetype_label')}
 	required
 >
 	{#each options as option}

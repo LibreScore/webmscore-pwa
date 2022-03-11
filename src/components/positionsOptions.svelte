@@ -1,12 +1,13 @@
 <script>
 	import { exportOptions } from '../stores.js';
 	import Select, { Option } from '@smui/select';
+	import { t } from '$lib/i18n/i18n';
 
-	let options = ['Measures', 'Segments'];
-	let selectedOption = 'Measures';
+	$: options = [$t('positions_measures_option'), $t('positions_segments_option')];
+	$: selectedOption = $t('positions_measures_option');
 
 	function setOptions() {
-		if (selectedOption === 'Segments') {
+		if (selectedOption === $t('positions_segments_option')) {
 			$exportOptions.ofSegments = true;
 		} else {
 			$exportOptions.ofSegments = false;
@@ -18,7 +19,7 @@
 	variant="outlined"
 	bind:value={selectedOption}
 	on:click={setOptions}
-	label="Positions of"
+	label={$t('positions_of_label')}
 	required
 >
 	{#each options as option}

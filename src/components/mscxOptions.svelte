@@ -1,3 +1,5 @@
-<p class="mdc-typography--body2">
-	Each selected score will be exported as a separate uncompressed MuseScore file.
-</p>
+<script>
+	import { t } from '$lib/i18n/i18n';
+</script>
+
+<p class="mdc-typography--body2">{$t('mscx_note')}</p>

@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
 	import { exportOptions } from '../stores.js';
 	import Button, { Group, Label, Icon } from '@smui/button';
 	import Select, { Option } from '@smui/select';
@@ -25,24 +25,29 @@
 	import PositionsOptions from '../components/positionsOptions.svelte';
 	import MetadataOptions from '../components/metadataOptions.svelte';
 	import WebMscore from 'webmscore';
+	import { t } from '$lib/i18n/i18n';
 
 	let scores: WebMscore[] = [];
 	let titles: String[] = [];
 	let blob: Blob = new Blob();
 	let zip = new JSZip();
 	//@ts-ignore
-	let files: FileWithHandle[] = [blob];
+	let files: FileWithHandle[];
+	$: files = [blob];
 	//@ts-ignore
-	let oldFiles: FileWithHandle[] = [];
+	let oldFiles: FileWithHandle[];
+	$: oldFiles = [];
 	//@ts-ignore
-	let msczMetadatas: String[] = ['No file metadata.'];
-	let fileNames: String[] = ['No file loaded.'];
-	let errorMessage = 'Unknown error.';
+	let msczMetadatas: String[];
+	$: msczMetadatas = [$t('no_file_metadata')];
+	let fileNames: String[];
+	$: fileNames = [$t('no_file_loaded')];
+	let errorMessage = $t('unknown_error');
 	let npages: Number[] = [1];
 	let progress = 0;
 	let loadingSnackbar;
-	let exportType = 'PDF';
-	let exportTypes = [
+	$: exportType = 'PDF';
+	$: exportTypes = [
 		'PDF',
 		'PNG',
 		'SVG',
@@ -54,11 +59,11 @@
 		'MusicXML',
 		'MSCZ',
 		'MSCX',
-		'Positions',
-		'Metadata'
+		$t('positions'),
+		$t('metadata')
 	];
 
-	let items = [
+	$: items = [
 		{
 			id: -1,
 			parts: [
@@ -75,10 +80,10 @@
 					program: 0
 				}
 			],
-			title: 'Full Score'
+			title: $t('full_score')
 		}
 	];
-	let selected = [items[items.findIndex((part) => part.id === -1)].id];
+	$: selected = [items[items.findIndex((part) => part.id === -1)].id];
 
 	let batchMode = false;
 	let convertIsDisabled = true;
@@ -146,64 +151,64 @@
 					'.gp',
 					'.ptb'
 				],
-				description: 'All Supported Files',
+				description: $t('all_supported_files'),
 				id: 'uploads',
 				multiple: true
 			},
 			{
 				mimeTypes: ['application/x-musescore', 'application/x-musescore+xml'],
 				extensions: ['.mscz', '.mscx'],
-				description: 'MuseScore Files'
+				description: $t('musescore_files')
 			},
 			{
 				mimeTypes: ['application/vnd.recordare.musicxml', 'application/vnd.recordare.musicxml+xml'],
 				extensions: ['.mxl', '.musicxml', '.xml'],
-				description: 'MusicXML Files'
+				description: $t('musicxml_files')
 			},
 			// {
 			// 	mimeTypes: ['audio/midi'],
 			// 	extensions: ['.mid', '.midi', '.kar'],
-			// 	description: 'MIDI Files'
+			// 	description: $t('midi_files')
 			// },
 			// {
 			// 	mimeTypes: ['application/x-musedata'],
 			// 	extensions: ['.md'],
-			// 	description: 'MuseData Files'
+			// 	description: $t('musedata_files')
 			// },
 			// {
 			// 	mimeTypes: ['application/x-capella'],
 			// 	extensions: ['.cap', '.capx'],
-			// 	description: 'Capella Files'
+			// 	description: $t('capella_files')
 			// },
 			// {
 			// 	mimeTypes: ['application/x-biab'],
 			// 	extensions: ['.mgu', '.sgu'],
-			// 	description: 'BB Files (experimental)'
+			// 	description: $t('bb_files') + $t('experimental')
 			// },
 			// {
 			// 	mimeTypes: ['application/x-overture'],
 			// 	extensions: ['.ove', '.scw'],
-			// 	description: 'Overture / Score Writer Files (experimental)'
+			// 	description: $t('overture_score_writer_files') + $t('experimental')
 			// },
 			// {
 			// 	mimeTypes: ['application/x-bww'],
 			// 	extensions: ['.bmw', '.bww'],
-			// 	description: 'Bagpipe Music Writer Files (experimental)'
+			// 	description: $t('bagpipe_music_writer_files') + $t('experimental')
 			// },
 			{
 				mimeTypes: ['audio/x-gtp'],
 				extensions: ['.gtp', '.gp3', '.gp4', '.gp5', '.gpx', '.gp'],
-				description: 'Guitar Pro Files'
+				description: $t('guitar_pro_files')
 			},
 			{
 				mimeTypes: ['audio/x-ptb'],
 				extensions: ['.ptb'],
-				description: 'Power Tab Editor Files (experimental)'
+				description: $t('power_tab_editor_files') + $t('experimental')
 			}
 			// {
 			// 	mimeTypes: ['application/x-musescore', 'application/x-musescore+xml'],
 			// 	extensions: ['.mscz,', '.mscx,'],
-			// 	description: 'MuseScore Backup Files'
+			// 	description: $t('musescore_backup_files')
 			// }
 		]).catch(() => {
 			convertIsDisabled = false;
@@ -247,7 +252,7 @@
 					'xml'
 				].includes(fileExt)
 			) {
-				errorMessage = 'Invalid file extension.';
+				errorMessage = $t('invalid_file_extension_error');
 				loadingSnackbar.open();
 				return;
 			}
@@ -465,7 +470,7 @@
 							});
 							fileExtension = '.mscx';
 							break;
-						case 'Positions':
+						case $t('positions'):
 							blob = await new Blob(
 								[await await scores[0].savePositions($exportOptions.ofSegments)],
 								{
@@ -474,7 +479,7 @@
 							);
 							fileExtension = '.json';
 							break;
-						case 'Metadata':
+						case $t('metadata'):
 							blob = await new Blob([await await scores[0].saveMetadata()], {
 								type: 'application/json'
 							});
@@ -482,7 +487,7 @@
 							break;
 						default:
 							blob = new Blob();
-							errorMessage = 'Invalid export target.';
+							errorMessage = $t('invalid_export_target_error');
 							loadingSnackbar.open();
 							return;
 					}
@@ -654,13 +659,13 @@
 							});
 							fileExtension = '.mscx';
 							break;
-						case 'Positions':
+						case $t('positions'):
 							blob = await new Blob([await await score.savePositions($exportOptions.ofSegments)], {
 								type: 'application/json'
 							});
 							fileExtension = '.json';
 							break;
-						case 'Metadata':
+						case $t('metadata'):
 							blob = await new Blob([await await score.saveMetadata()], {
 								type: 'application/json'
 							});
@@ -668,7 +673,7 @@
 							break;
 						default:
 							blob = new Blob();
-							errorMessage = 'Invalid export target.';
+							errorMessage = $t('invalid_export_target_error');
 							loadingSnackbar.open();
 							return;
 					}
@@ -699,142 +704,150 @@
 <Snackbar bind:this={loadingSnackbar}>
 	<Label>{errorMessage}</Label>
 	<Actions>
-		<IconButton class="material-icons-outlined" title="Dismiss">close</IconButton>
+		<IconButton class="material-icons-outlined" title={$t('dismiss')}>close</IconButton>
 	</Actions>
 </Snackbar>
 
-<div class="fileHandling">
-	<Button variant="outlined" on:click={handleMscz}>
-		<Icon class="material-icons-outlined">file_upload</Icon>
-		<Label>Select Files</Label>
-	</Button>
-	<Select
-		style="margin: 8px 0px 0px 0px;"
-		variant="outlined"
-		bind:value={exportType}
-		on:click={updateConvertDisabled}
-		label="Export to"
-		required
-	>
-		{#each exportTypes as type}
-			<Option value={type}>{type}</Option>
-		{/each}
-	</Select>
-	{#if downloadIsDisabled}
-		<Button
-			style="margin: 8px 0px 0px 0px;"
-			variant="raised"
-			bind:disabled={convertIsDisabled}
-			on:click={saveFile}
-		>
-			<Icon class="material-icons-outlined">swap_horiz</Icon>
-			<Label>Convert</Label>
+<div class="convert">
+	<div class="fileHandling">
+		<Button variant="outlined" on:click={handleMscz}>
+			<Icon class="material-icons-outlined">file_upload</Icon>
+			<Label>{$t('select_files_label')}</Label>
 		</Button>
-	{/if}
-	{#if convertIsProcessing}
-		{#if !isZipping}
-			<LinearProgress {progress} buffer={0} />
-		{:else}
-			<LinearProgress indeterminate />
-		{/if}
-	{/if}
-	{#if !downloadIsDisabled}
-		<Button
-			class="button-shaped-round"
+		<Select
 			style="margin: 8px 0px 0px 0px;"
-			bind:disabled={convertIsDisabled}
-			color="secondary"
-			variant="raised"
-			href={window.URL.createObjectURL(blob)}
-			download={titles.join(', ') + '.zip'}
+			variant="outlined"
+			bind:value={exportType}
+			on:click={updateConvertDisabled}
+			label={$t('export_to_label')}
+			required
 		>
-			<Icon class="material-icons-outlined">file_download</Icon>
-			<Label>Download</Label>
-		</Button>
-	{/if}
-	{#if !fileIsLoading}
-		{#if !convertIsProcessing}
-			<p class="mdc-typography--subtitle1">
-				{#each fileNames as fileName}
-					{fileName}<br />
-				{/each}
-			</p>
-		{:else}
-			<p class="mdc-typography--subtitle1" style="margin: 12px 0px 16px 0px">
-				{#each fileNames as fileName}
-					{fileName}<br />
-				{/each}
-			</p>
+			{#each exportTypes as type}
+				<Option value={type}>{type}</Option>
+			{/each}
+		</Select>
+		{#if downloadIsDisabled}
+			<Button
+				style="margin: 8px 0px 0px 0px;"
+				variant="raised"
+				bind:disabled={convertIsDisabled}
+				on:click={saveFile}
+			>
+				<Icon class="material-icons-outlined">swap_horiz</Icon>
+				<Label>{$t('convert_label')}</Label>
+			</Button>
 		{/if}
-	{:else}
-		<CircularProgress style="height: 28px; width: 28px; margin: 16px 0px" indeterminate />
-	{/if}
-</div>
-{#if !optionsAreDisabled}
-	<div class="options">
-		{#if !batchMode}
-			<div class="partOptions">
-				<Card variant="outlined" style="flex: 1;">
-					<Content class="mdc-typography--subtitle2">What to export</Content>
-					<List checkList>
-						{#each items as item}
-							<Item>
-								<Checkbox bind:group={selected} value={item.id} />
-								<Label>{item.title}</Label>
-							</Item>
-						{/each}
-					</List>
-					<Group variant="outlined" style="display: flex;">
-						<Button on:click={selectAll} variant="outlined" style="flex: auto;"
-							><Label>Select all</Label></Button
-						>
-						<Button on:click={clearSelection} variant="outlined" style="flex: auto;"
-							><Label>Clear selection</Label></Button
-						>
-					</Group>
+		{#if convertIsProcessing}
+			{#if !isZipping}
+				<LinearProgress {progress} buffer={0} />
+			{:else}
+				<LinearProgress indeterminate />
+			{/if}
+		{/if}
+		{#if !downloadIsDisabled}
+			<Button
+				class="button-shaped-round"
+				style="margin: 8px 0px 0px 0px;"
+				bind:disabled={convertIsDisabled}
+				color="secondary"
+				variant="raised"
+				href={window.URL.createObjectURL(blob)}
+				download={titles.join(', ') + '.zip'}
+			>
+				<Icon class="material-icons-outlined">file_download</Icon>
+				<Label>{$t('download_label')}</Label>
+			</Button>
+		{/if}
+		{#if !fileIsLoading}
+			{#if !convertIsProcessing}
+				<p class="mdc-typography--subtitle1">
+					{#each fileNames as fileName}
+						{fileName}<br />
+					{/each}
+				</p>
+			{:else}
+				<p class="mdc-typography--subtitle1" style="margin: 12px 0px 16px 0px">
+					{#each fileNames as fileName}
+						{fileName}<br />
+					{/each}
+				</p>
+			{/if}
+		{:else}
+			<CircularProgress style="height: 28px; width: 28px; margin: 16px 0px" indeterminate />
+		{/if}
+	</div>
+	{#if !optionsAreDisabled}
+		<div class="options">
+			{#if !batchMode}
+				<div class="partOptions">
+					<Card variant="outlined" style="flex: 1;">
+						<Content class="mdc-typography--subtitle2">{$t('what_to_export')}</Content>
+						<List checkList>
+							{#each items as item}
+								<Item>
+									<Checkbox bind:group={selected} value={item.id} />
+									<Label>{item.title}</Label>
+								</Item>
+							{/each}
+						</List>
+						<Group variant="outlined" style="display: flex;">
+							<Button on:click={selectAll} variant="outlined" style="flex: auto;"
+								><Label>{$t('select_all_label')}</Label></Button
+							>
+							<Button on:click={clearSelection} variant="outlined" style="flex: auto;"
+								><Label>{$t('clear_selection_label')}</Label></Button
+							>
+						</Group>
+					</Card>
+				</div>
+			{/if}
+			<div class="fileOptions">
+				<Card class="fileOption" variant="outlined" style="flex: 1;">
+					<Content class="mdc-typography--subtitle2">{$t('export_options')}</Content>
+					<div class="optionsRoot">
+						{#if exportType === 'PDF'}
+							<PdfOptions />
+						{:else if exportType === 'PNG'}
+							<PngOptions />
+						{:else if exportType === 'SVG'}
+							<SvgOptions />
+						{:else if exportType === 'MP3'}
+							<Mp3Options />
+						{:else if exportType === 'WAV'}
+							<WavOptions />
+						{:else if exportType === 'FLAC'}
+							<FlacOptions />
+						{:else if exportType === 'OGG'}
+							<OggOptions />
+						{:else if exportType === 'MIDI'}
+							<MidiOptions />
+						{:else if exportType === 'MusicXML'}
+							<MusicXmlOptions />
+						{:else if exportType === 'MSCZ'}
+							<MsczOptions />
+						{:else if exportType === 'MSCX'}
+							<MscxOptions />
+						{:else if exportType === $t('positions')}
+							<PositionsOptions />
+						{:else if exportType === $t('metadata')}
+							<MetadataOptions />
+						{:else}
+							<p class="mdc-typography--body2">{$t('invalid_export_target_error')}</p>
+						{/if}
+					</div>
 				</Card>
 			</div>
-		{/if}
-		<div class="fileOptions">
-			<Card class="fileOption" variant="outlined" style="flex: 1;">
-				<Content class="mdc-typography--subtitle2">Export options</Content>
-				<div class="optionsRoot">
-					{#if exportType === 'PDF'}
-						<PdfOptions />
-					{:else if exportType === 'PNG'}
-						<PngOptions />
-					{:else if exportType === 'SVG'}
-						<SvgOptions />
-					{:else if exportType === 'MP3'}
-						<Mp3Options />
-					{:else if exportType === 'WAV'}
-						<WavOptions />
-					{:else if exportType === 'FLAC'}
-						<FlacOptions />
-					{:else if exportType === 'OGG'}
-						<OggOptions />
-					{:else if exportType === 'MIDI'}
-						<MidiOptions />
-					{:else if exportType === 'MusicXML'}
-						<MusicXmlOptions />
-					{:else if exportType === 'MSCZ'}
-						<MsczOptions />
-					{:else if exportType === 'MSCX'}
-						<MscxOptions />
-					{:else if exportType === 'Positions'}
-						<PositionsOptions />
-					{:else if exportType === 'Metadata'}
-						<MetadataOptions />
-					{:else}
-						<p class="mdc-typography--body2">Invalid export target.</p>
-					{/if}
-				</div>
-			</Card>
 		</div>
-	</div>
-{/if}
+	{/if}
+</div>
 
 <style>
+	.convert {
+		align-self: center;
+		max-width: 1024px;
+		width: 100%;
+	}
+
 	.fileHandling {
 		display: flex;
 		flex-direction: column;

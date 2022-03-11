@@ -2,13 +2,14 @@
 	import { exportOptions } from '../stores.js';
 	import FormField from '@smui/form-field';
 	import Checkbox from '@smui/checkbox';
+	import { t } from '$lib/i18n/i18n';
 
-	let options = ['Expand repeats', 'Export RPNs'];
-	let selected = options.map((n) => n);
+	$: options = [$t('midi_expand_repeats_option'), $t('midi_export_rpns_option')];
+	$: selected = options.map((n) => n);
 
 	function setOptions() {
-		$exportOptions.midiExpandRepeats = selected.includes('Expand repeats');
-		$exportOptions.exportRPNs = selected.includes('Export RPNs');
+		$exportOptions.midiExpandRepeats = selected.includes($t('midi_expand_repeats_option'));
+		$exportOptions.exportRPNs = selected.includes($t('midi_export_rpns_option'));
 	}
 </script>
 
@@ -19,4 +20,4 @@
 	</FormField>
 {/each}
 
-<p class="mdc-typography--body2">Each selected score will be exported as a separate MIDI file.</p>
+<p class="mdc-typography--body2">{$t('midi_note')}</p>

@@ -2,13 +2,14 @@
 	import { exportOptions } from '../stores.js';
 	import FormField from '@smui/form-field';
 	import Checkbox from '@smui/checkbox';
+	import { t } from '$lib/i18n/i18n';
 
-	let options = ['Draw page background', 'Transparent background'];
-	let selected = options.map((n) => n);
+	$: options = [$t('draw_page_background_option'), $t('png_transparent_background_option')];
+	$: selected = options.map((n) => n);
 
 	function setOptions() {
-		$exportOptions.drawPageBackground = selected.includes('Draw page background');
-		$exportOptions.transparent = selected.includes('Transparent background');
+		$exportOptions.drawPageBackground = selected.includes($t('draw_page_background_option'));
+		$exportOptions.transparent = selected.includes($t('png_transparent_background_option'));
 	}
 </script>
 
@@ -19,6 +20,4 @@
 	</FormField>
 {/each}
 
-<p class="mdc-typography--body2">
-	Each page of the selected scores will be exported as a separate PNG file.
-</p>
+<p class="mdc-typography--body2">{$t('png_note')}</p>
