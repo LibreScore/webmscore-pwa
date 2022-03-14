@@ -32,22 +32,22 @@
 	let blob: Blob = new Blob();
 	let zip = new JSZip();
 	//@ts-ignore
-	let files: FileWithHandle[];
-	$: files = [blob];
+	let files: FileWithHandle[] = [blob];
+	// $: files = [blob];
 	//@ts-ignore
-	let oldFiles: FileWithHandle[];
-	$: oldFiles = [];
+	let oldFiles: FileWithHandle[] = [blob];
+	// $: oldFiles = [];
 	//@ts-ignore
 	let msczMetadatas: String[];
 	$: msczMetadatas = [$t('no_file_metadata')];
-	let fileNames: String[];
-	$: fileNames = [$t('no_file_loaded')];
+	let fileNames: String[] = [$t('no_file_loaded')];
+	$: fileNames = isFileLoaded === false ? [$t('no_file_loaded')] : fileNames;
 	let errorMessage = $t('unknown_error');
-	let npages: Number[] = [1];
+	let npages: number[] = [1];
 	let progress = 0;
 	let loadingSnackbar;
-	$: exportType = 'PDF';
-	$: exportTypes = [
+	let exportType = 'PDF';
+	let exportTypes = [
 		'PDF',
 		'PNG',
 		'SVG',
@@ -59,11 +59,10 @@
 		'MusicXML',
 		'MSCZ',
 		'MSCX',
-		$t('positions'),
-		$t('metadata')
+		'Positions',
+		'Metadata'
 	];
-
-	$: items = [
+	let items = [
 		{
 			id: -1,
 			parts: [
@@ -83,21 +82,34 @@
 			title: $t('full_score')
 		}
 	];
-	$: selected = [items[items.findIndex((part) => part.id === -1)].id];
+	$: items[items.findIndex((part) => part.id === -1)].title = $t('full_score');
+	let selected = [items[items.findIndex((part) => part.id === -1)].id];
 
-	let batchMode = false;
-	let convertIsDisabled = true;
-	let downloadIsDisabled = true;
-	let optionsAreDisabled = true;
-	let fileIsLoading = false;
-	let convertIsProcessing = false;
-	let isZipping = false;
+	let isFileLoaded: boolean = false;
+	let batchMode: boolean = false;
+	let convertIsDisabled: boolean = true;
+	let oldConvertIsDisabled: boolean = true;
+	let downloadIsDisabled: boolean = true;
+	let optionsAreDisabled: boolean = true;
+	let fileIsLoading: boolean = false;
+	let convertIsProcessing: boolean = false;
+	let isZipping: boolean = false;
 
 	function updateConvertDisabled() {
+		// console.log(exportTypes);
+		// console.log(exportType);
+		// console.log(oldExportTypeIndex);
+		// console.log(exportTypes.indexOf(exportType));
+		// oldExportTypeIndex = exportTypes.indexOf(exportType);
+		// console.log(exportTypes);
+		// console.log(exportType);
+		// console.log(oldExportTypeIndex);
+		// console.log(exportTypes.indexOf(exportType));
 		if (
-			files[0].size !== 0 &&
-			exportType != '' &&
-			selected.length !== 0 &&
+			files[0].size > 0 &&
+			!(files.length === 1 && files[0].size === 0 && files[0].type === '') &&
+			exportType !== '' &&
+			selected.length > 0 &&
 			exportTypes.includes(exportType) &&
 			!fileIsLoading
 		) {
@@ -121,6 +133,7 @@
 	}
 
 	async function handleMscz() {
+		oldConvertIsDisabled = convertIsDisabled;
 		convertIsDisabled = true;
 		//@ts-ignore
 		files = await fileOpen([
@@ -211,7 +224,7 @@
 			// 	description: $t('musescore_backup_files')
 			// }
 		]).catch(() => {
-			convertIsDisabled = false;
+			convertIsDisabled = oldConvertIsDisabled;
 			return oldFiles;
 		});
 
@@ -257,7 +270,8 @@
 				return;
 			}
 
-			fileNames.push(blobs.name);
+			fileNames = [...fileNames, blobs.name];
+			isFileLoaded = true;
 
 			WebMscore.ready.then(async () => {
 				fileIsLoading = true;
@@ -327,7 +341,7 @@
 			progress = 0;
 			zip = new JSZip();
 
-			if (exportType === 'PNG' || exportType == 'SVG') {
+			if (exportType === 'PNG' || exportType === 'SVG') {
 				selected.forEach(async (excerptId, index) => {
 					scores[0].setExcerptId(excerptId);
 					partsPages.push(await scores[0].npages());
@@ -364,13 +378,13 @@
 									fileExtension = '.svg';
 								}
 
-								if (blob.size != 0) {
+								if (blob.size !== 0) {
 									let fileSuffix =
 										'-' +
 										items[items.findIndex((part) => part.id === excerptIdNew)].title +
 										'-' +
 										(i + 1).toString();
-									if (excerptIdNew == -1) {
+									if (excerptIdNew === -1) {
 										fileSuffix = '-' + (i + 1).toString();
 									}
 									zip.file(
@@ -470,7 +484,7 @@
 							});
 							fileExtension = '.mscx';
 							break;
-						case $t('positions'):
+						case 'Positions':
 							blob = await new Blob(
 								[await await scores[0].savePositions($exportOptions.ofSegments)],
 								{
@@ -479,7 +493,7 @@
 							);
 							fileExtension = '.json';
 							break;
-						case $t('metadata'):
+						case 'Metadata':
 							blob = await new Blob([await await scores[0].saveMetadata()], {
 								type: 'application/json'
 							});
@@ -492,9 +506,9 @@
 							return;
 					}
 
-					if (blob.size != 0) {
+					if (blob.size !== 0) {
 						let fileSuffix = '-' + items[items.findIndex((part) => part.id === excerptId)].title;
-						if (excerptId == -1) {
+						if (excerptId === -1) {
 							fileSuffix = '';
 						}
 						zip.file(
@@ -526,7 +540,7 @@
 			progress = 0;
 			zip = new JSZip();
 
-			if (exportType === 'PNG' || exportType == 'SVG') {
+			if (exportType === 'PNG' || exportType === 'SVG') {
 				for (let [index, score] of scores.entries()) {
 					scoresPages[index] = await score.npages();
 
@@ -561,7 +575,7 @@
 									fileExtension = '.svg';
 								}
 
-								if (blob.size != 0) {
+								if (blob.size !== 0) {
 									let fileSuffix = '-' + (i + 1).toString();
 									zip.file(
 										fileNames[indexNew].substring(0, fileNames[indexNew].lastIndexOf('.')) +
@@ -659,13 +673,13 @@
 							});
 							fileExtension = '.mscx';
 							break;
-						case $t('positions'):
+						case 'Positions':
 							blob = await new Blob([await await score.savePositions($exportOptions.ofSegments)], {
 								type: 'application/json'
 							});
 							fileExtension = '.json';
 							break;
-						case $t('metadata'):
+						case 'Metadata':
 							blob = await new Blob([await await score.saveMetadata()], {
 								type: 'application/json'
 							});
@@ -678,7 +692,7 @@
 							return;
 					}
 
-					if (blob.size != 0) {
+					if (blob.size !== 0) {
 						zip.file(
 							fileNames[index].substring(0, fileNames[index].lastIndexOf('.')) + fileExtension,
 							blob
@@ -723,7 +737,12 @@
 			required
 		>
 			{#each exportTypes as type}
-				<Option value={type}>{type}</Option>
+				<!-- 11 is the index of exportTypes where translatable export types begin -->
+				{#if exportTypes.indexOf(type) < 11}
+					<Option value={type}>{type}</Option>
+				{:else}
+					<Option value={type}>{$t(type.charAt(0).toLowerCase() + type.slice(1))}</Option>
+				{/if}
 			{/each}
 		</Select>
 		{#if downloadIsDisabled}
@@ -827,9 +846,9 @@
 							<MsczOptions />
 						{:else if exportType === 'MSCX'}
 							<MscxOptions />
-						{:else if exportType === $t('positions')}
+						{:else if exportType === 'Positions'}
 							<PositionsOptions />
-						{:else if exportType === $t('metadata')}
+						{:else if exportType === 'Metadata'}
 							<MetadataOptions />
 						{:else}
 							<p class="mdc-typography--body2">{$t('invalid_export_target_error')}</p>

@@ -38,7 +38,7 @@
 			.insertAdjacentElement('afterend', themeLink);
 	}
 
-	let languages = ['en'];
+	let languages = ['en', 'fr', 'ar', 'es', 'it', 'ja', 'ko', 'ru', 'zh-Hans'];
 </script>
 
 <TopAppBar bind:this={topAppBar} variant="standard">
