@@ -1,10 +1,14 @@
 <script>
-	import { exportOptions } from '../stores.js';
+	import { exportOptions, homeState } from '../stores.js';
 	import Select, { Option } from '@smui/select';
 	import { t } from '$lib/i18n/i18n';
 
+	let options = [$t('positions_measures_option'), $t('positions_segments_option')];
 	$: options = [$t('positions_measures_option'), $t('positions_segments_option')];
-	$: selectedOption = $t('positions_measures_option');
+	let selectedOption = $exportOptions.ofSegments
+		? $t('positions_measures_option')
+		: $t('positions_measures_option');
+	let oldSelectedOption = selectedOption;
 
 	function setOptions() {
 		if (selectedOption === $t('positions_segments_option')) {
@@ -12,6 +16,11 @@
 		} else {
 			$exportOptions.ofSegments = false;
 		}
+		if (oldSelectedOption !== selectedOption) {
+			$homeState.convertIsDisabled = false;
+			$homeState.downloadIsDisabled = true;
+		}
+		oldSelectedOption = selectedOption;
 	}
 </script>
 

@@ -2,15 +2,17 @@
 
 // Svelte Colors! (Dark Theme)
 @use '@material/theme/index' as theme with (
-  $primary: #bb86fc,
-  $secondary: #03dac6,
-  $background: #121212,
-  $surface: #121212,
-  $error: #cf6679,
-  $on-primary: #000000,
-  $on-secondary: #000000,
-  $on-surface: #ffffff,
-  $on-error: #000000,
+	$primary: #abc7ff,
+	$secondary: #abc7ff,
+	// $secondary: #9dcaff,
+	$background: #1c1b1f,
+	$surface: #1c1b1f,
+	$error: #f2b8b5,
+	$on-primary: #002e6b,
+	$on-secondary: #002e6b,
+	// $on-secondary: #00325a,
+	$on-surface: #e6e1e5,
+	$on-error: #601410
 );
 
 @use '../app';

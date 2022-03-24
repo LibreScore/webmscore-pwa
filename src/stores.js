@@ -6,5 +6,8 @@ export const exportOptions = writable({
 	midiExpandRepeats: true,
 	exportRPNs: true,
 	compress: true,
+	outdated: false,
 	ofSegments: false
 });
+
+export const homeState = writable({ convertIsDisabled: true, downloadIsDisabled: true });

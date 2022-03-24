@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { exportOptions } from '../stores.js';
+	import { exportOptions, homeState } from '../stores.js';
 	import Button, { Group, Label, Icon } from '@smui/button';
 	import Select, { Option } from '@smui/select';
 	import List, { Item } from '@smui/list';
@@ -87,9 +87,9 @@
 
 	let isFileLoaded: boolean = false;
 	let batchMode: boolean = false;
-	let convertIsDisabled: boolean = true;
+	// $homeState.convertIsDisabled = true;
 	let oldConvertIsDisabled: boolean = true;
-	let downloadIsDisabled: boolean = true;
+	// $homeState.downloadIsDisabled = true;
 	let optionsAreDisabled: boolean = true;
 	let fileIsLoading: boolean = false;
 	let convertIsProcessing: boolean = false;
@@ -113,12 +113,12 @@
 			exportTypes.includes(exportType) &&
 			!fileIsLoading
 		) {
-			convertIsDisabled = false;
+			$homeState.convertIsDisabled = false;
 			optionsAreDisabled = false;
 		} else {
-			convertIsDisabled = true;
+			$homeState.convertIsDisabled = true;
 		}
-		downloadIsDisabled = true;
+		$homeState.downloadIsDisabled = true;
 	}
 
 	//@ts-ignore
@@ -133,8 +133,8 @@
 	}
 
 	async function handleMscz() {
-		oldConvertIsDisabled = convertIsDisabled;
-		convertIsDisabled = true;
+		oldConvertIsDisabled = $homeState.convertIsDisabled;
+		$homeState.convertIsDisabled = true;
 		//@ts-ignore
 		files = await fileOpen([
 			{
@@ -224,7 +224,7 @@
 			// 	description: $t('musescore_backup_files')
 			// }
 		]).catch(() => {
-			convertIsDisabled = oldConvertIsDisabled;
+			$homeState.convertIsDisabled = oldConvertIsDisabled;
 			return oldFiles;
 		});
 
@@ -319,10 +319,10 @@
 						.map((value) => value.scoreBlob);
 					fileIsLoading = false;
 					if (exportType !== '') {
-						convertIsDisabled = false;
+						$homeState.convertIsDisabled = false;
 						optionsAreDisabled = false;
 					} else {
-						convertIsDisabled = true;
+						$homeState.convertIsDisabled = true;
 					}
 				}
 			});
@@ -334,8 +334,8 @@
 			let fileExtension = '.';
 			let partsLength = selected.length;
 			let partsPages: number[] = [];
-			convertIsDisabled = true;
-			downloadIsDisabled = true;
+			$homeState.convertIsDisabled = true;
+			$homeState.downloadIsDisabled = true;
 			convertIsProcessing = true;
 			isZipping = false;
 			progress = 0;
@@ -400,7 +400,7 @@
 									progress = 1;
 									isZipping = true;
 									blob = await zip.generateAsync({ type: 'blob' }).then((zipped) => {
-										downloadIsDisabled = false;
+										$homeState.downloadIsDisabled = false;
 										convertIsProcessing = false;
 										return zipped;
 									});
@@ -466,10 +466,17 @@
 								});
 								fileExtension = '.mxl';
 							} else {
-								blob = await new Blob([await await scores[0].saveXml()], {
-									type: 'application/vnd.recordare.musicxml+xml'
-								});
-								fileExtension = '.musicxml';
+								if ($exportOptions.outdated) {
+									blob = await new Blob([await await scores[0].saveXml()], {
+										type: 'application/vnd.recordare.musicxml+xml'
+									});
+									fileExtension = '.xml';
+								} else {
+									blob = await new Blob([await await scores[0].saveXml()], {
+										type: 'application/vnd.recordare.musicxml+xml'
+									});
+									fileExtension = '.musicxml';
+								}
 							}
 							break;
 						case 'MSCZ':
@@ -522,7 +529,7 @@
 						progress = 1;
 						isZipping = true;
 						blob = await zip.generateAsync({ type: 'blob' }).then((zipped) => {
-							downloadIsDisabled = false;
+							$homeState.downloadIsDisabled = false;
 							convertIsProcessing = false;
 							return zipped;
 						});
@@ -533,8 +540,8 @@
 			let fileExtension = '.';
 			let scoresLength = scores.length;
 			let scoresPages: number[] = [];
-			convertIsDisabled = true;
-			downloadIsDisabled = true;
+			$homeState.convertIsDisabled = true;
+			$homeState.downloadIsDisabled = true;
 			convertIsProcessing = true;
 			isZipping = false;
 			progress = 0;
@@ -590,7 +597,7 @@
 									progress = 1;
 									isZipping = true;
 									blob = await zip.generateAsync({ type: 'blob' }).then((zipped) => {
-										downloadIsDisabled = false;
+										$homeState.downloadIsDisabled = false;
 										convertIsProcessing = false;
 										return zipped;
 									});
@@ -655,10 +662,17 @@
 								});
 								fileExtension = '.mxl';
 							} else {
-								blob = await new Blob([await await score.saveXml()], {
-									type: 'application/vnd.recordare.musicxml+xml'
-								});
-								fileExtension = '.musicxml';
+								if ($exportOptions.outdated) {
+									blob = await new Blob([await await score.saveXml()], {
+										type: 'application/vnd.recordare.musicxml+xml'
+									});
+									fileExtension = '.xml';
+								} else {
+									blob = await new Blob([await await score.saveXml()], {
+										type: 'application/vnd.recordare.musicxml+xml'
+									});
+									fileExtension = '.musicxml';
+								}
 							}
 							break;
 						case 'MSCZ':
@@ -704,7 +718,7 @@
 						progress = 1;
 						isZipping = true;
 						blob = await zip.generateAsync({ type: 'blob' }).then((zipped) => {
-							downloadIsDisabled = false;
+							$homeState.downloadIsDisabled = false;
 							convertIsProcessing = false;
 							return zipped;
 						});
@@ -729,14 +743,14 @@
 			<Label>{$t('select_files_label')}</Label>
 		</Button>
 		<Select
-			style="margin: 8px 0px 0px 0px;"
+			style="margin-inline: 0px; margin-block: 8px 0px;"
 			variant="outlined"
 			bind:value={exportType}
-			on:click={updateConvertDisabled}
+			on:MDCSelect:change={updateConvertDisabled}
 			label={$t('export_to_label')}
 			required
 		>
-			{#each exportTypes as type}
+			{#each [...exportTypes] as type (exportTypes.indexOf(type))}
 				<!-- 11 is the index of exportTypes where translatable export types begin -->
 				{#if exportTypes.indexOf(type) < 11}
 					<Option value={type}>{type}</Option>
@@ -745,38 +759,73 @@
 				{/if}
 			{/each}
 		</Select>
-		{#if downloadIsDisabled}
-			<Button
-				style="margin: 8px 0px 0px 0px;"
-				variant="raised"
-				bind:disabled={convertIsDisabled}
-				on:click={saveFile}
+		<!-- <select style="margin: 8px 0px 0px 0px;">
+			{#each exportTypes as type}
+				11 is the index of exportTypes where translatable export types begin
+				{#if exportTypes.indexOf(type) < 11}
+					<option value={type}>{type}</option>
+				{:else}
+					<option value={type}>{$t(type.charAt(0).toLowerCase() + type.slice(1))}</option>
+				{/if}
+			{/each}
+		</select>
+		<label for="pet-select">Choose a pet:</label>
+
+		<select name="pets" id="pet-select">
+			<option value="dog">{$t('positions')}</option>
+			<option value="cat">{$t('metadata')}</option>
+			<option value="hamster">Hamster</option>
+			<option value="parrot">Parrot</option>
+			<option value="spider">Spider</option>
+			<option value="goldfish">Goldfish</option>
+		</select> -->
+		<div class="buttons">
+			<div
+				style="margin-inline: 0px 4px; margin-block: 8px 0px; display: flex; flex-flow: column nowrap; flex-grow: 1;"
 			>
-				<Icon class="material-icons-outlined">swap_horiz</Icon>
-				<Label>{$t('convert_label')}</Label>
-			</Button>
-		{/if}
-		{#if convertIsProcessing}
-			{#if !isZipping}
-				<LinearProgress {progress} buffer={0} />
+				<Button
+					style="flex-grow: 1;"
+					variant="raised"
+					bind:disabled={$homeState.convertIsDisabled}
+					on:click={saveFile}
+				>
+					<Icon class="material-icons-outlined">swap_horiz</Icon>
+					<Label>{$t('convert_label')}</Label>
+				</Button>
+				{#if convertIsProcessing}
+					{#if !isZipping}
+						<LinearProgress {progress} buffer={0} style="flex-grow: 1;" />
+					{:else}
+						<LinearProgress indeterminate style="flex-grow: 1;" />
+					{/if}
+				{/if}
+			</div>
+			{#if $homeState.downloadIsDisabled}
+				<Button
+					class="button-shaped-round"
+					style="margin-inline: 4px 0px; margin-block: 8px 0px; flex-grow: 1;"
+					disabled
+					color="secondary"
+					variant="raised"
+					download={titles.join(', ') + '.zip'}
+				>
+					<Icon class="material-icons-outlined">file_download</Icon>
+					<Label>{$t('download_label')}</Label>
+				</Button>
 			{:else}
-				<LinearProgress indeterminate />
+				<Button
+					class="button-shaped-round"
+					style="margin-inline: 4px 0px; margin-block: 8px 0px; flex-grow: 1;"
+					color="secondary"
+					variant="raised"
+					href={window.URL.createObjectURL(blob)}
+					download={titles.join(', ') + '.zip'}
+				>
+					<Icon class="material-icons-outlined">file_download</Icon>
+					<Label>{$t('download_label')}</Label>
+				</Button>
 			{/if}
-		{/if}
-		{#if !downloadIsDisabled}
-			<Button
-				class="button-shaped-round"
-				style="margin: 8px 0px 0px 0px;"
-				bind:disabled={convertIsDisabled}
-				color="secondary"
-				variant="raised"
-				href={window.URL.createObjectURL(blob)}
-				download={titles.join(', ') + '.zip'}
-			>
-				<Icon class="material-icons-outlined">file_download</Icon>
-				<Label>{$t('download_label')}</Label>
-			</Button>
-		{/if}
+		</div>
 		{#if !fileIsLoading}
 			{#if !convertIsProcessing}
 				<p class="mdc-typography--subtitle1">
@@ -785,14 +834,17 @@
 					{/each}
 				</p>
 			{:else}
-				<p class="mdc-typography--subtitle1" style="margin: 12px 0px 16px 0px">
+				<p class="mdc-typography--subtitle1" style="margin-inline: 0px; margin-block: 12px 16px;">
 					{#each fileNames as fileName}
 						{fileName}<br />
 					{/each}
 				</p>
 			{/if}
 		{:else}
-			<CircularProgress style="height: 28px; width: 28px; margin: 16px 0px" indeterminate />
+			<CircularProgress
+				style="block-size: 28px; inline-size: 28px; margin-inline: 0px; margin-block: 16px;"
+				indeterminate
+			/>
 		{/if}
 	</div>
 	{#if !optionsAreDisabled}
@@ -863,21 +915,19 @@
 <style>
 	.convert {
 		align-self: center;
-		max-width: 1024px;
-		width: 100%;
+		max-inline-size: 1024px;
+		inline-size: 100%;
 	}
 
 	.fileHandling {
 		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
+		flex-flow: column wrap;
 		justify-content: space-around;
 	}
 
 	.options {
 		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
+		flex-flow: row wrap;
 		justify-content: space-around;
 	}
 
@@ -892,5 +942,12 @@
 		display: flex;
 		flex-direction: column;
 		padding: 16px;
+	}
+
+	.buttons {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: stretch;
+		justify-content: space-around;
 	}
 </style>
