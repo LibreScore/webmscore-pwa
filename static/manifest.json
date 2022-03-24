@@ -50,13 +50,9 @@
     "background_color": "#ffffff",
     "display": "standalone",
     "scope": "./",
-    "theme_color": "#6200ee",
-    "description": "Read mscz data, and generate audio/MIDI/MusicXML/SVG/PNG/PDF sheets.",
+    "theme_color": "#007bff",
+    "description": "Read MSCZ data, and generate audio/MIDI/MusicXML/SVG/PNG/PDF sheets.",
     "file_handlers": [{
-    "action": "./",
-    "accept": {
-      "application/x-musescore": [".mscz"],
-      "application/x-musescore+xml": [".mscx"]
-    }
+    "action": "./"
   }]
 }
