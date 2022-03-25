@@ -1,10 +1,23 @@
 <script context="module" lang="ts">
 	import { loadTranslations } from '$lib/i18n/i18n';
 
-	let locale =
-		// Intl.DateTimeFormat().resolvedOptions().locale ||
-		'en';
+	// Object from language name to locale details.
+	let languageMap = {
+		English: ['en', 'ltr', 'Latn', "'Roboto', sans-serif"],
+		Español: ['es', 'ltr', 'Latn', "'Roboto', sans-serif"],
+		Français: ['fr', 'ltr', 'Latn', "'Roboto', sans-serif"],
+		العربية: ['ar', 'rtl', 'Arab', "'Noto Sans Arabic', sans-serif"],
+		Русский: ['ru', 'ltr', 'Cyrl', "'Roboto', sans-serif"],
+		简体中文: ['zh-Hans', 'ltr', 'Hans', "'Noto Sans SC', sans-serif"],
+		Italiano: ['it', 'ltr', 'Latn', "'Roboto', sans-serif"],
+		日本語: ['ja', 'ltr', 'Jpan', "'Noto Sans JP', sans-serif"],
+		한국어: ['ko', 'ltr', 'Hang', "'Noto Sans KR', sans-serif"]
+	};
 
+	let locale = Intl.DateTimeFormat().resolvedOptions().locale || 'en';
+	console.log(locale);
+	locale = [languageMap].some((e) => locale.startsWith(e[0])) ? locale.substring(0, 2) : 'en';
+	console.log(locale);
 	let lateUrl;
 	export const load = async ({ url }) => {
 		const { pathname } = url;
@@ -32,6 +45,7 @@
 	let topAppBar;
 	let lightTheme =
 		typeof window === 'undefined' || !window.matchMedia('(prefers-color-scheme: light)').matches;
+	document.documentElement.setAttribute('lang', locale);
 
 	function switchTheme() {
 		let themeLink = document.head.querySelector('#theme');
@@ -51,18 +65,6 @@
 			.insertAdjacentElement('afterend', themeLink);
 	}
 
-	// Object from language name to locale details.
-	let languageMap = {
-		English: ['en', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		Español: ['es', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		Français: ['fr', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		العربية: ['ar', 'rtl', 'Arab', "'Noto Sans Arabic', sans-serif"],
-		Русский: ['ru', 'ltr', 'Cyrl', "'Roboto', sans-serif"],
-		简体中文: ['zh-Hans', 'ltr', 'Hans', "'Noto Sans SC', sans-serif"],
-		Italiano: ['it', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		日本語: ['ja', 'ltr', 'Jpan', "'Noto Sans JP', sans-serif"],
-		한국어: ['ko', 'ltr', 'Hang', "'Noto Sans KR', sans-serif"]
-	};
 	// Object of language options with native keys and localized values.
 	let languageItems: { [key: string]: string }[] = [{}];
 
@@ -131,6 +133,7 @@
 								<Item
 									on:SMUI:action={async () => {
 										locale = languageMap[Object.keys(language)[0]][0];
+										document.documentElement.setAttribute('lang', locale);
 										direction = languageMap[Object.keys(language)[0]][1];
 										font = languageMap[Object.keys(language)[0]][3];
 										await loadTranslations(locale, lateUrl);
@@ -138,7 +141,10 @@
 									}}
 								>
 									<Text>
-										<PrimaryText>{Object.keys(language)[0]}</PrimaryText>
+										<PrimaryText
+											style="font-family: {languageMap[Object.keys(language)[0]][3]} !important;"
+											>{Object.keys(language)[0]}</PrimaryText
+										>
 										<SecondaryText>{language[Object.keys(language)[0]]}</SecondaryText>
 									</Text>
 								</Item>
