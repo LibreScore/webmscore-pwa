@@ -1,3 +1,12 @@
 {
-    "full_score": "풀 스코어"
+    "full_score": "풀 스코어",
+    "russianText": "러시아어",
+    "simplifiedChineseText": "중국어 (간체)",
+    "italianText": "이탈리아어",
+    "koreanText": "한국어",
+    "japaneseText": "일본어",
+    "englishText": "영어",
+    "spanishText": "스페인어",
+    "frenchText": "프랑스어",
+    "arabicText": "아랍어"
 }
