@@ -1,3 +1,12 @@
 {
-    "full_score": "Partitura completa"
+    "full_score": "Partitura completa",
+    "spanishText": "Spagnolo",
+    "frenchText": "Francese",
+    "arabicText": "Arabo",
+    "russianText": "Russo",
+    "simplifiedChineseText": "Cinese semplificato",
+    "italianText": "Italiano",
+    "koreanText": "Coreano",
+    "japaneseText": "Giapponese",
+    "englishText": "Inglese"
 }
