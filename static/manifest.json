@@ -51,8 +51,5 @@
     "display": "standalone",
     "scope": "./",
     "theme_color": "#007bff",
-    "description": "Read MSCZ data, and generate audio/MIDI/MusicXML/SVG/PNG/PDF sheets.",
-    "file_handlers": [{
-    "action": "./"
-  }]
+    "description": "Read MSCZ data, and generate audio/MIDI/MusicXML/SVG/PNG/PDF sheets."
 }
