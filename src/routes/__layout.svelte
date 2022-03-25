@@ -3,21 +3,60 @@
 
 	// Object from language name to locale details.
 	let languageMap = {
-		English: ['en', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		Español: ['es', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		Français: ['fr', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		العربية: ['ar', 'rtl', 'Arab', "'Noto Sans Arabic', sans-serif"],
-		Русский: ['ru', 'ltr', 'Cyrl', "'Roboto', sans-serif"],
-		简体中文: ['zh-Hans', 'ltr', 'Hans', "'Noto Sans SC', sans-serif"],
-		Italiano: ['it', 'ltr', 'Latn', "'Roboto', sans-serif"],
-		日本語: ['ja', 'ltr', 'Jpan', "'Noto Sans JP', sans-serif"],
-		한국어: ['ko', 'ltr', 'Hang', "'Noto Sans KR', sans-serif"]
+		English: ['en', 'ltr', 'Latn', "'Roboto'"],
+		Español: ['es', 'ltr', 'Latn', "'Roboto'"],
+		Français: ['fr', 'ltr', 'Latn', "'Roboto'"],
+		العربية: ['ar', 'rtl', 'Arab', "'Noto Sans Arabic'"],
+		Русский: ['ru', 'ltr', 'Cyrl', "'Roboto'"],
+		简体中文: ['zh-Hans', 'ltr', 'Hans', "'Noto Sans SC'"],
+		Italiano: ['it', 'ltr', 'Latn', "'Roboto'"],
+		日本語: ['ja', 'ltr', 'Jpan', "'Noto Sans JP'"],
+		한국어: ['ko', 'ltr', 'Hang', "'Noto Sans KR'"]
 	};
 
-	let locale = Intl.DateTimeFormat().resolvedOptions().locale || 'en';
-	console.log(locale);
-	locale = [languageMap].some((e) => locale.startsWith(e[0])) ? locale.substring(0, 2) : 'en';
-	console.log(locale);
+	let locale: string = 'en';
+	if (typeof window !== 'undefined') {
+		let localeOrder = navigator.languages?.concat(
+			Intl.DateTimeFormat().resolvedOptions().locale
+		) ?? ['en'];
+
+		console.log(localeOrder);
+		localeOrder.forEach((localeItem) => {
+			console.log(localeItem);
+			if ([languageMap].some((e) => localeItem.startsWith(e[0]))) {
+				if (/[-_][A-Za-z]{4}/g.test(localeItem)) {
+					console.log('passed 1st');
+					let tempLocale;
+					if (
+						[languageMap].some(
+							(e) =>
+								e[0].startsWith(localeItem.substring(0, 2)) &&
+								/[-_][A-Za-z]{4}/g.exec(localeItem).some((f) => {
+									tempLocale = f;
+									return e[0].includes(f);
+								})
+						)
+					) {
+						console.log('passed 2nd');
+						locale = tempLocale;
+					}
+				}
+				locale = localeItem.substring(0, 2);
+			}
+		});
+		if (locale === 'en') {
+			if (
+				['ab', 'et', 'kk', 'ky', 'lv', 'os', 'ro-MD', 'ru', 'tg', 'uk', 'uz'].some((e) =>
+					localeOrder[0].startsWith(e)
+				)
+			) {
+				locale = 'ru';
+			} else {
+				locale = 'en';
+			}
+		}
+		console.log(locale);
+	}
 	let lateUrl;
 	export const load = async ({ url }) => {
 		const { pathname } = url;
@@ -40,8 +79,8 @@
 	let menu: MenuComponentDev;
 	let anchor: HTMLDivElement;
 	let anchorClasses: { [k: string]: boolean } = {};
-	let direction = 'ltr';
-	let font = "'Roboto', sans-serif";
+	let direction = Object.values(languageMap).find((e) => e[0] == locale)?.[1] ?? 'ltr';
+	let font = Object.values(languageMap).find((e) => e[0] == locale)?.[3] ?? "'Roboto', sans-serif";
 	let topAppBar;
 	let lightTheme =
 		typeof window === 'undefined' || !window.matchMedia('(prefers-color-scheme: light)').matches;
@@ -94,7 +133,7 @@
 	updateLanguages();
 </script>
 
-<div dir={direction} style="--mdc-typography-font-family: {font} !important;">
+<div dir={direction} style="--mdc-typography-font-family: {font}, sans-serif !important;">
 	<TopAppBar bind:this={topAppBar} variant="standard">
 		<Row>
 			<Section>
