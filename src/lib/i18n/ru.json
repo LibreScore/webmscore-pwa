@@ -1,1 +1,11 @@
-{}
+{
+    "englishText": "Английский",
+    "spanishText": "Испанский",
+    "frenchText": "Французский",
+    "arabicText": "Арабский",
+    "russianText": "Русский",
+    "simplifiedChineseText": "Упрощенный китайский",
+    "italianText": "Итальянский",
+    "koreanText": "Корейский",
+    "japaneseText": "Японский"
+}
