@@ -20,12 +20,12 @@
 			Intl.DateTimeFormat().resolvedOptions().locale
 		) ?? ['en'];
 
-		console.log(localeOrder);
+		// console.log(localeOrder);
 		localeOrder.forEach((localeItem) => {
-			console.log(localeItem);
+			// console.log(localeItem);
 			if ([languageMap].some((e) => localeItem.startsWith(e[0]))) {
 				if (/[-_][A-Za-z]{4}/g.test(localeItem)) {
-					console.log('passed 1st');
+					// console.log('passed 1st');
 					let tempLocale;
 					if (
 						[languageMap].some(
@@ -37,7 +37,7 @@
 								})
 						)
 					) {
-						console.log('passed 2nd');
+						// console.log('passed 2nd');
 						locale = tempLocale;
 					}
 				}
@@ -55,7 +55,7 @@
 				locale = 'en';
 			}
 		}
-		console.log(locale);
+		// console.log(locale);
 	}
 	let lateUrl;
 	export const load = async ({ url }) => {
