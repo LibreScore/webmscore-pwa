@@ -1,8 +1,10 @@
-# Webmscore PWA
+<div dir="ltr" align="left">
 
-&#8206;**English** | &#8206;[[+]](https://librescore.ddns.net/projects/librescore/docs)
+[&#8206;العربية](/docs/ar/اقرأني.md) | [&#8206;English](/docs/en/README.md) | [&#8206;Español](/docs/es/LÉAME.md) | &#8206;**Français** | &#8206;[[+]](https://librescore.ddns.net/projects/librescore/docs)
 
-L'interface officielle de l'outil webmscore : https://librescore.github.io/
+# Application Web progressive de Webmscore
+
+L'interface officielle de l'outil webmscore : <https://librescore.github.io>
 
 ## Développement
 
@@ -24,3 +26,5 @@ npm run build
 ```
 
 > Vous pouvez prévisualiser l'application construite avec `npm run preview`, que vous ayez installé un adaptateur ou non. Cela ne doit _pas_ être utilisé pour diffuser votre application en production.
+
+</div>
