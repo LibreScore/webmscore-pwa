@@ -7,5 +7,21 @@
     "simplifiedChineseText": "Упрощенный китайский",
     "italianText": "Итальянский",
     "koreanText": "Корейский",
-    "japaneseText": "Японский"
+    "japaneseText": "Японский",
+    "webmscore": "Webmscore",
+    "audio_note": "Каждая выбранная партитура будет экспортирована в отдельный аудио файл.",
+    "midi_note": "Каждая выбранная партитура будет экспортирована в отдельный файл MIDI.",
+    "musicxml_option": "Несжатый (*.musicxml)",
+    "png_transparent_background_option": "Прозрачный фон",
+    "png_note": "Каждая страница выбранных партитур будет экспортирована в отдельный файл PNG.",
+    "no_options": "Нет опций.",
+    "mscx_note": "Каждая выбранная партитура будет экспортирована в отдельный несжатый файл MuseScore.",
+    "mscz_note": "Каждая выбранная партитура будет экспортирована в отдельный файл MuseScore.",
+    "mxl_option": "Сжатый (*.mxl)",
+    "xml_option": "Несжатый (устаревший) (*.musicxml)",
+    "musicxml_filetype_label": "Тип файла MusicXML",
+    "draw_page_background_option": "Рисовать фон страницы",
+    "language": "Язык",
+    "svg_note": "Каждая выбранная партитура будет экспортирована в отдельный файл SVG.",
+    "midi_expand_repeats_option": "Раскрыть повторы"
 }
