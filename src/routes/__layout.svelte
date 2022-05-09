@@ -2,17 +2,7 @@
 	import { loadTranslations } from '$lib/i18n/i18n';
 
 	// Object from language name to locale details.
-	let languageMap = {
-		English: ['en', 'ltr', 'Latn', "'Roboto'"],
-		Español: ['es', 'ltr', 'Latn', "'Roboto'"],
-		Français: ['fr', 'ltr', 'Latn', "'Roboto'"],
-		العربية: ['ar', 'rtl', 'Arab', "'Noto Sans Arabic'"],
-		Русский: ['ru', 'ltr', 'Cyrl', "'Roboto'"],
-		简体中文: ['zh-Hans', 'ltr', 'Hans', "'Noto Sans SC'"],
-		Italiano: ['it', 'ltr', 'Latn', "'Roboto'"],
-		日本語: ['ja', 'ltr', 'Jpan', "'Noto Sans JP'"],
-		한국어: ['ko', 'ltr', 'Hang', "'Noto Sans KR'"]
-	};
+	let languageMap = { English: ['en', 'ltr'] };
 
 	let locale: string = 'en';
 	if (typeof window !== 'undefined') {
@@ -80,7 +70,6 @@
 	let anchor: HTMLDivElement;
 	let anchorClasses: { [k: string]: boolean } = {};
 	let direction = Object.values(languageMap).find((e) => e[0] == locale)?.[1] ?? 'ltr';
-	let font = Object.values(languageMap).find((e) => e[0] == locale)?.[3] ?? "'Roboto', sans-serif";
 	let topAppBar;
 	let lightTheme =
 		typeof window === 'undefined' || !window.matchMedia('(prefers-color-scheme: light)').matches;
@@ -102,6 +91,10 @@
 		document.head
 			.querySelector('link[href="/smui-dark.css"]')
 			.insertAdjacentElement('afterend', themeLink);
+
+		document
+			.querySelector('meta[name="color-scheme"]')
+			.setAttribute('content', lightTheme ? 'light' : 'dark');
 	}
 
 	// Object of language options with native keys and localized values.
@@ -109,17 +102,7 @@
 
 	function updateLanguages() {
 		// Temporary list of language options to alphabetize languageItems.
-		languageItems = [
-			{ English: $t('englishText') },
-			{ Español: $t('spanishText') },
-			{ Français: $t('frenchText') },
-			{ العربية: $t('arabicText') },
-			{ Русский: $t('russianText') },
-			{ 简体中文: $t('simplifiedChineseText') },
-			{ Italiano: $t('italianText') },
-			{ 日本語: $t('japaneseText') },
-			{ 한국어: $t('koreanText') }
-		];
+		languageItems = [{ English: $t('en') }];
 
 		// Sort the languages alphabetically in the current locale
 		languageItems.sort((a, b) =>
@@ -130,10 +113,26 @@
 		);
 	}
 
+	function updateHtml() {
+		document.documentElement.setAttribute('lang', locale);
+		document.title = $t('webmscore');
+		document.documentElement.setAttribute('dir', direction);
+		if (
+			new RegExp(
+				'[\u0600-\u06FF\u0750-\u077F\u0870-\u089F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0980-\u09FF\u0A80-\u0AFF\u0900-\u097F\uA8E0-\uA8FF\u2E80-\u2EFF\u3000-\u303F\u31C0-\u31EF\u3200-\u32FF\u3300-\u33FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\uFE30-\uFE4F\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u1780-\u17FF\u19E0-\u19FF\u0C80-\u0CFF\u0D00-\u0D7F\u1000-\u109F\uA9E0-\uA9FF\uAA60-\uAA7F\u0D80-\u0DFF\u0B80-\u0BFF\u0C00-\u0C7F\u0E00-\u0E7F]|\uD83B[\uDE00-\uDEFF]|\uD840[\uDC00-\uFFFF]|[\uD841-\uD868][\u0000-\uFFFF]|\uD869[\u0000-\uDEDF]|\uD869[\uDF00-\uFFFF]|[\uD86A-\uD86C][\u0000-\uFFFF]|\uD86D[\u0000-\uDF3F]|\uD86D[\uDF40-\uFFFF]|\uD86E[\u0000-\uDC1F]|\uD86E[\uDC20-\uFFFF]|[\uD86F-\uD872][\u0000-\uFFFF]|\uD873[\u0000-\uDEAF]|\uD873[\uDEB0-\uFFFF]|[\uD874-\uD879][\u0000-\uFFFF]|\uD87A[\u0000-\uDFEF]|\uD87E[\uDC00-\uDE1F]|\uD880[\uDC00-\uFFFF]|[\uD881-\uD883][\u0000-\uFFFF]|\uD884[\u0000-\uDF4F]|\uD804[\uDDE0-\uDDFF]|\uD807[\uDFC0-\uDFFF]'
+			).test(Object.keys(languageMap).find((e) => languageMap[e][0] === locale))
+		) {
+			document.documentElement.style.fontSize = 'larger';
+		} else {
+			document.documentElement.style.fontSize = null;
+		}
+	}
+
 	updateLanguages();
+	updateHtml();
 </script>
 
-<div dir={direction} style="--mdc-typography-font-family: {font}, sans-serif !important;">
+<div>
 	<TopAppBar bind:this={topAppBar} variant="standard">
 		<Row>
 			<Section>
@@ -165,25 +164,21 @@
 						anchor={false}
 						bind:anchorElement={anchor}
 						anchorCorner="BOTTOM_START"
-						style="block-size: 384px"
+						style="max-block-size: 384px"
 					>
 						<List twoLine>
 							{#each languageItems as language}
 								<Item
 									on:SMUI:action={async () => {
 										locale = languageMap[Object.keys(language)[0]][0];
-										document.documentElement.setAttribute('lang', locale);
 										direction = languageMap[Object.keys(language)[0]][1];
-										font = languageMap[Object.keys(language)[0]][3];
 										await loadTranslations(locale, lateUrl);
 										updateLanguages();
+										updateHtml();
 									}}
 								>
 									<Text>
-										<PrimaryText
-											style="font-family: {languageMap[Object.keys(language)[0]][3]} !important;"
-											>{Object.keys(language)[0]}</PrimaryText
-										>
+										<PrimaryText>{Object.keys(language)[0]}</PrimaryText>
 										<SecondaryText>{language[Object.keys(language)[0]]}</SecondaryText>
 									</Text>
 								</Item>

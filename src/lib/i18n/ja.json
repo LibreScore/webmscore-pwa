@@ -1,12 +1,12 @@
 {
-    "full_score": "フルスコア",
-    "koreanText": "韓国語",
-    "japaneseText": "日本語",
-    "englishText": "英語",
-    "spanishText": "スペイン語",
-    "frenchText": "フランス語",
-    "arabicText": "アラブ語",
-    "russianText": "ロシア語",
-    "simplifiedChineseText": "中国語（簡体）",
-    "italianText": "アラビア語"
+  "full_score": "フルスコア",
+  "ar": "アラビア語",
+  "en": "英語",
+  "es": "スペイン語",
+  "fr": "フランス語",
+  "it": "イタリア語",
+  "ja": "日本語",
+  "ko": "韓国語",
+  "ru": "ロシア語",
+  "zh-Hans": "簡体中国語"
 }

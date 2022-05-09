@@ -1,12 +1,12 @@
 {
-    "full_score": "Partitura completa",
-    "japaneseText": "Japonés",
-    "englishText": "Inglés",
-    "spanishText": "Español",
-    "frenchText": "Francés",
-    "arabicText": "Árabe",
-    "russianText": "Ruso",
-    "simplifiedChineseText": "Chino simplificado",
-    "italianText": "Italiano",
-    "koreanText": "Coreano"
+  "full_score": "Partitura completa",
+  "ar": "árabe",
+  "en": "inglés",
+  "es": "español",
+  "fr": "francés",
+  "it": "italiano",
+  "ja": "japonés",
+  "ko": "coreano",
+  "ru": "ruso",
+  "zh-Hans": "chino simplificado"
 }

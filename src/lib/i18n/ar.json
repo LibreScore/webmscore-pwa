@@ -1,11 +1,16 @@
 {
-    "englishText": "الإنجليزية",
-    "arabicText": "العربية",
-    "spanishText": "الإسبانية",
-    "frenchText": "الفرنسية",
-    "russianText": "الروسية",
-    "simplifiedChineseText": "الصينية المبسطة",
-    "italianText": "الإيطالية",
-    "koreanText": "الكورية",
-    "japaneseText": "اليابانية"
+  "ar": "العربية",
+  "en": "الإنجليزية",
+  "es": "الإسبانية",
+  "fr": "الفرنسية",
+  "it": "الإيطالية",
+  "ja": "اليابانية",
+  "ko": "الكورية",
+  "ru": "الروسية",
+  "zh-Hans": "الصينية المبسطة",
+  "webmscore": "ويبمسكور",
+  "export_to_label": "تصدير الى",
+  "select_files_label": "اختر الملفات",
+  "convert_label": "يتحول",
+  "download_label": "تحميل"
 }

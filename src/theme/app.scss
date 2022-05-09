@@ -2,8 +2,11 @@
 //
 // MDC Typography
 //
-@use "@material/typography/mdc-typography";
+@use '@material/typography/mdc-typography';
 
 body {
 	margin: 0px !important;
+	--mdc-typography-font-family: Roboto, 'Noto Naskh Arabic UI', 'Noto Sans Armenian',
+		'Noto Sans Devanagari UI', 'Noto Sans Georgian', 'Noto Sans Hebrew', 'Noto Sans Thai UI',
+		'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;
 }
