@@ -48,7 +48,6 @@ sed -i "${i18n_first_line}i loaders: [" src/lib/i18n/i18n.ts
 for file in $I18N_PATH/*.json; do
     filename=${file##*/}
     filename=${filename%%\.*}
-    echo $filename
     if ! [[ " $skipped_languages " =~ " $filename " ]]; then
         langname=$(node -e "console.log(new Intl.DisplayNames(['$filename'], { type: 'language' }).of('$filename'));")
         direction=$(node -e "if (new RegExp('^[^\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]*?[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]').test('$langname')) {console.log('rtl')} else {console.log('ltr')};")
