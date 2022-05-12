@@ -2,7 +2,7 @@
 
 &#8206;[العربية](/docs/ar/اقرأني.md) | &#8206;[English](/docs/en/README.md) | &#8206;**español** | &#8206;[français](/docs/fr/LISEZMOI.md) | &#8206;[Melayu](/docs/ms/BACASAYA.md) | &#8206;[[+]](https://librescore.ddns.net/projects/librescore/docs)
 
-[//]: # "\+\_==!|!=_=!|!==_/+/ ***DO NOT EDIT ABOVE THIS LINE*** /+/^^+#|#+^+#|#+^^\+\"
+[//]: # "\+\_==!|!=_=!|!==_/+/**NO EDITAR ENCIMA DE ESTA LINEA** /+/^^+#|#+^+#|#+^^\+\"
 
 # Aplicación web progresiva de Webmscore
 
