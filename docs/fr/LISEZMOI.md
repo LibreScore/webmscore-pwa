@@ -10,7 +10,7 @@ L'interface officielle de l'outil webmscore : <https://librescore.github.io>
 
 ## Développement
 
-Une fois que vous avez créé un projet et installé les dépendances avec `npm install` (ou `pnpm install` ou `yarn`), démarrez un serveur de développement :
+Une fois que vous avez créé un projet et installé les dépendances avec `npm install` (ou `pnpm install` ou `yarn`), démarrez un serveur de développement :
 
 ```bash
 npm run dev
