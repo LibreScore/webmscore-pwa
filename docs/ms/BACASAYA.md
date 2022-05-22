@@ -19,7 +19,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Bangunan
+## Penyusunan
 
 Sebelum membuat versi pengeluaran apl anda, pasang [penyesuai](https://kit.svelte.dev/docs#adapters) untuk persekitaran sasaran anda. Kemudian:
 

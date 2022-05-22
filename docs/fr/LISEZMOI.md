@@ -19,7 +19,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Construction
+## Compilation
 
 Avant de créer une version de production de votre application, installez un [adaptateur](https://kit.svelte.dev/docs#adapters) pour votre environnement cible. Puis :
 
