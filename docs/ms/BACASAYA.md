@@ -27,6 +27,6 @@ Sebelum membuat versi pengeluaran apl anda, pasang [penyesuai](https://kit.svelt
 npm run build
 ```
 
-> Anda boleh pratonton apl terbina dengan `npm run pratonton`, tidak kira sama ada anda memasang penyesuai. Ini seharusnya _tidak_ digunakan untuk menyampaikan apl anda dalam pengeluaran.
+> Anda boleh pratonton apl terbina dengan `npm run preview`, tidak kira sama ada anda memasang penyesuai. Ini seharusnya _tidak_ digunakan untuk menyampaikan apl anda dalam pengeluaran.
 
 </div>
