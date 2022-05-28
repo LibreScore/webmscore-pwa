@@ -1,3 +1,13 @@
 {
-    "full_score": "Skor penuh"
+  "full_score": "Skor penuh",
+  "ar": "Arab",
+  "en": "Inggeris",
+  "es": "Sepanyol",
+  "fr": "Perancis",
+  "it": "Itali",
+  "ja": "Jepun",
+  "ko": "Korea",
+  "ms": "Melayu",
+  "ru": "Rusia",
+  "zh-Hans": "Cina Ringkas"
 }

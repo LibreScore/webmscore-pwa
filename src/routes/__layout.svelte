@@ -2,51 +2,41 @@
 	import { loadTranslations } from '$lib/i18n/i18n';
 
 	// Object from language name to locale details.
-	let languageMap = { English: ['en', 'ltr'] };
+	let languageMap = { English: ['en', 'ltr'], русский: ['ru', 'ltr'] };
 
 	let locale: string = 'en';
 	if (typeof window !== 'undefined') {
 		let localeOrder = navigator.languages?.concat(
 			Intl.DateTimeFormat().resolvedOptions().locale
 		) ?? ['en'];
+		let localeArray = Object.values(languageMap).map((arr) => arr[0]);
 
-		// console.log(localeOrder);
-		localeOrder.forEach((localeItem) => {
-			// console.log(localeItem);
-			if ([languageMap].some((e) => localeItem.startsWith(e[0]))) {
-				if (/[-_][A-Za-z]{4}/g.test(localeItem)) {
-					// console.log('passed 1st');
-					let tempLocale;
-					if (
-						[languageMap].some(
-							(e) =>
-								e[0].startsWith(localeItem.substring(0, 2)) &&
-								/[-_][A-Za-z]{4}/g.exec(localeItem).some((f) => {
-									tempLocale = f;
-									return e[0].includes(f);
-								})
-						)
-					) {
-						// console.log('passed 2nd');
-						locale = tempLocale;
-					}
-				}
+		localeOrder.some((localeItem) => {
+			if (localeArray.includes(localeItem)) {
+				locale = localeItem;
+				return true;
+			} else if (localeArray.includes(localeItem.substring(0, 2))) {
 				locale = localeItem.substring(0, 2);
+				return true;
+			} else if (localeArray.some((locale) => locale.startsWith(localeItem.substring(0, 2)))) {
+				locale = localeArray.find((locale) => locale.startsWith(localeItem.substring(0, 2)));
+				return true;
 			}
 		});
 		if (locale === 'en') {
 			if (
 				['ab', 'et', 'kk', 'ky', 'lv', 'os', 'ro-MD', 'ru', 'tg', 'uk', 'uz'].some((e) =>
 					localeOrder[0].startsWith(e)
-				)
+				) &&
+				localeArray.includes('ru')
 			) {
 				locale = 'ru';
 			} else {
 				locale = 'en';
 			}
 		}
-		// console.log(locale);
 	}
+
 	let lateUrl;
 	export const load = async ({ url }) => {
 		const { pathname } = url;
@@ -69,7 +59,7 @@
 	let menu: MenuComponentDev;
 	let anchor: HTMLDivElement;
 	let anchorClasses: { [k: string]: boolean } = {};
-	let direction = Object.values(languageMap).find((e) => e[0] == locale)?.[1] ?? 'ltr';
+	let direction = Object.values(languageMap).find((e) => e[0] === locale)?.[1] ?? 'ltr';
 	let topAppBar;
 	let lightTheme =
 		typeof window === 'undefined' || !window.matchMedia('(prefers-color-scheme: light)').matches;
@@ -102,7 +92,7 @@
 
 	function updateLanguages() {
 		// Temporary list of language options to alphabetize languageItems.
-		languageItems = [{ English: $t('en') }];
+		languageItems = [{ English: $t('en') }, { русский: $t('ru') }];
 
 		// Sort the languages alphabetically in the current locale
 		languageItems.sort((a, b) =>
@@ -186,23 +176,6 @@
 						</List>
 					</Menu>
 				</div>
-				<!-- <div>
-				<Select
-					on:click={async () => {
-						await loadTranslations(locale, lateUrl);
-						updateLanguages();
-					}}
-					variant="outlined"
-					bind:value={locale}
-					label={$t('language')}
-				>
-					<Icon class="material-icons-outlined" slot="leadingIcon">language</Icon>
-					{#each languageItems as language}
-						<Option value={languageMap[Object.keys(language)[0]]}>{Object.keys(language)[0]}</Option
-						>
-					{/each}
-				</Select>
-			</div> -->
 				<IconButton on:click={switchTheme} toggle bind:pressed={lightTheme}>
 					<Icon class="material-icons-outlined" on>light_mode</Icon>
 					<Icon class="material-icons-outlined">dark_mode</Icon>
@@ -212,7 +185,7 @@
 	</TopAppBar>
 	<AutoAdjust
 		{topAppBar}
-		style="display: flex; flex-direction: column; align-items: stretch; margin-inline: 16px; margin-block: 0px 16px; padding-block-start: 80px;"
+		style="display: flex; flex-direction: column; align-items: stretch; margin-inline: 16px; padding-block: 80px 16px;"
 		><slot /></AutoAdjust
 	>
 </div>

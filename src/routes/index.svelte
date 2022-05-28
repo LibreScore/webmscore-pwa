@@ -781,10 +781,10 @@
 		</select> -->
 		<div class="buttons">
 			<div
-				style="margin-inline: 0px 4px; margin-block: 8px 0px; display: flex; flex-flow: column nowrap; flex-grow: 1;"
+				style="margin-inline: 0px 4px; margin-block: 8px 0px; display: flex; flex-flow: column nowrap; flex: 1;"
 			>
 				<Button
-					style="flex-grow: 1;"
+					style="padding: 0;"
 					variant="raised"
 					bind:disabled={$homeState.convertIsDisabled}
 					on:click={saveFile}
@@ -794,16 +794,16 @@
 				</Button>
 				{#if convertIsProcessing}
 					{#if !isZipping}
-						<LinearProgress {progress} buffer={0} style="flex-grow: 1;" />
+						<LinearProgress {progress} buffer={0} />
 					{:else}
-						<LinearProgress indeterminate style="flex-grow: 1;" />
+						<LinearProgress indeterminate />
 					{/if}
 				{/if}
 			</div>
 			{#if $homeState.downloadIsDisabled}
 				<Button
 					class="button-shaped-round"
-					style="margin-inline: 4px 0px; margin-block: 8px 0px; flex-grow: 1;"
+					style="padding: 0; margin-inline: 4px 0px; margin-block: 8px 0px; flex: 1;"
 					disabled
 					color="secondary"
 					variant="raised"
@@ -815,7 +815,7 @@
 			{:else}
 				<Button
 					class="button-shaped-round"
-					style="margin-inline: 4px 0px; margin-block: 8px 0px; flex-grow: 1;"
+					style="padding: 0; margin-inline: 4px 0px; margin-block: 8px 0px; flex: 1;"
 					color="secondary"
 					variant="raised"
 					href={window.URL.createObjectURL(blob)}
