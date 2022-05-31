@@ -25,9 +25,22 @@
 		});
 		if (locale === 'en') {
 			if (
-				['ab', 'et', 'kk', 'ky', 'lv', 'os', 'ro-MD', 'ru', 'tg', 'uk', 'uz'].some((e) =>
-					localeOrder[0].startsWith(e)
-				) &&
+				[
+					'ab',
+					'be',
+					'et',
+					'hy',
+					'kk',
+					'ky',
+					'lv',
+					'os',
+					'ro-MD',
+					'ru',
+					'tg',
+					'tk',
+					'uk',
+					'uz'
+				].some((e) => localeOrder[0].startsWith(e)) &&
 				localeArray.includes('ru')
 			) {
 				locale = 'ru';
