@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #* STEP 0
+sudo apt install sponge
 sudo npm i -g prettier prettier-plugin-svelte
 I18N_PATH="./src/lib/i18n"
 TRANSLATION_PERCENTAGE=0.9
