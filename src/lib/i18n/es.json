@@ -1,13 +1,14 @@
 {
-  "full_score": "Partitura completa",
-  "ar": "árabe",
-  "en": "inglés",
-  "es": "español",
-  "fr": "francés",
-  "it": "italiano",
-  "ja": "japonés",
-  "ko": "coreano",
-  "ru": "ruso",
-  "zh-Hans": "chino simplificado",
-  "ms": "malayo"
+    "full_score": "Partitura completa",
+    "ar": "árabe",
+    "en": "inglés",
+    "es": "español",
+    "fr": "francés",
+    "it": "italiano",
+    "ja": "japonés",
+    "ko": "coreano",
+    "ru": "ruso",
+    "zh-Hans": "chino simplificado",
+    "ms": "malayo",
+    "webmscore": "Webmscore"
 }
