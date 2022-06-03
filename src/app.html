@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 	<head>
-		<meta charset="utf-8" />
 		<title>Webmscore</title>
-		<link rel="icon" href="/favicon.png" />
+		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="manifest" crossorigin="use-credentials" href="manifest.webmanifest" />
 		<meta name="color-scheme" content="light dark" />
+		<meta name="description" content="Frontend for the webmscore tool." />
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#005ac3" />
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#abc7ff" />
+		<link rel="icon" href="/favicon.png" />
+		<link rel="apple-touch-icon" href="/librescore192-apple.png" />
+		<link rel="manifest" crossorigin="use-credentials" href="manifest.webmanifest" />
 
 		<!-- Fonts and CSS -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,9 +28,9 @@
 		<link rel="stylesheet" href="/smui.css" media="(prefers-color-scheme: light)" />
 		<link rel="stylesheet" href="/smui-dark.css" media="screen and (prefers-color-scheme: dark)" />
 
-		%svelte.head%
+		%sveltekit.head%
 	</head>
 	<body>
-		<div id="svelte">%svelte.body%</div>
+		<div id="svelte">%sveltekit.body%</div>
 	</body>
 </html>

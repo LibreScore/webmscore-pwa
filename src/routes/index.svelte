@@ -759,26 +759,6 @@
 				{/if}
 			{/each}
 		</Select>
-		<!-- <select style="margin: 8px 0px 0px 0px;">
-			{#each exportTypes as type}
-				11 is the index of exportTypes where translatable export types begin
-				{#if exportTypes.indexOf(type) < 11}
-					<option value={type}>{type}</option>
-				{:else}
-					<option value={type}>{$t(type.charAt(0).toLowerCase() + type.slice(1))}</option>
-				{/if}
-			{/each}
-		</select>
-		<label for="pet-select">Choose a pet:</label>
-
-		<select name="pets" id="pet-select">
-			<option value="dog">{$t('positions')}</option>
-			<option value="cat">{$t('metadata')}</option>
-			<option value="hamster">Hamster</option>
-			<option value="parrot">Parrot</option>
-			<option value="spider">Spider</option>
-			<option value="goldfish">Goldfish</option>
-		</select> -->
 		<div class="buttons">
 			<div
 				style="margin-inline: 0px 4px; margin-block: 8px 0px; display: flex; flex-flow: column nowrap; flex: 1;"

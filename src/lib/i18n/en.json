@@ -1,5 +1,6 @@
 {
   "webmscore": "Webmscore",
+  "description": "Frontend for the webmscore tool.",
   "audio_note": "Each selected score will be exported as a separate audio file.",
   "no_options": "No options.",
   "midi_note": "Each selected score will be exported as a separate MIDI file.",
@@ -19,6 +20,7 @@
   "positions_of_label": "Positions of",
   "svg_note": "Each page of the selected scores will be exported as a separate SVG file.",
   "language": "Language",
+  "theme": "Theme",
   "no_file_metadata": "No file metadata.",
   "no_file_loaded": "No file loaded.",
   "unknown_error": "Unknown error.",

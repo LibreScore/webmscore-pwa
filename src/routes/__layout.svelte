@@ -50,11 +50,8 @@
 		}
 	}
 
-	let lateUrl;
-	export const load = async ({ url }) => {
-		const { pathname } = url;
-		lateUrl = url;
-		await loadTranslations(locale, pathname);
+	export const load = async () => {
+		await loadTranslations(locale);
 
 		return {};
 	};
@@ -98,6 +95,15 @@
 		document
 			.querySelector('meta[name="color-scheme"]')
 			.setAttribute('content', lightTheme ? 'light' : 'dark');
+
+		if (document.querySelectorAll('meta[name="theme-color"]').length > 1) {
+			document.querySelector('meta[name="theme-color"]').remove();
+			document.querySelector('meta[name="theme-color"]').removeAttribute('media');
+		}
+
+		document
+			.querySelector('meta[name="theme-color"]')
+			.setAttribute('content', lightTheme ? '#005ac3' : '#abc7ff');
 	}
 
 	// Object of language options with native keys and localized values.
@@ -119,6 +125,7 @@
 	function updateHtml() {
 		document.documentElement.setAttribute('lang', locale);
 		document.title = $t('webmscore');
+		document.querySelector('meta[name="description"]').setAttribute('content', $t('description'));
 		document.documentElement.setAttribute('dir', direction);
 		if (
 			new RegExp(
@@ -135,70 +142,68 @@
 	updateHtml();
 </script>
 
-<div>
-	<TopAppBar bind:this={topAppBar} variant="standard">
-		<Row>
-			<Section>
-				<Title>{$t('webmscore')}</Title>
-			</Section>
-			<Section align="end" toolbar>
-				<div
-					class={Object.keys(anchorClasses).join(' ')}
-					use:Anchor={{
-						addClass: (className) => {
-							if (!anchorClasses[className]) {
-								anchorClasses[className] = true;
-							}
-						},
-						removeClass: (className) => {
-							if (anchorClasses[className]) {
-								delete anchorClasses[className];
-								anchorClasses = anchorClasses;
-							}
+<TopAppBar bind:this={topAppBar} variant="standard">
+	<Row>
+		<Section>
+			<Title>{$t('webmscore')}</Title>
+		</Section>
+		<Section align="end" toolbar>
+			<div
+				class={Object.keys(anchorClasses).join(' ')}
+				use:Anchor={{
+					addClass: (className) => {
+						if (!anchorClasses[className]) {
+							anchorClasses[className] = true;
 						}
-					}}
-					bind:this={anchor}
-				>
-					<IconButton on:click={() => menu.setOpen(true)}>
-						<Icon class="material-icons-outlined">language</Icon>
-					</IconButton>
-					<Menu
-						bind:this={menu}
-						anchor={false}
-						bind:anchorElement={anchor}
-						anchorCorner="BOTTOM_START"
-						style="max-block-size: 384px"
-					>
-						<List twoLine>
-							{#each languageItems as language}
-								<Item
-									on:SMUI:action={async () => {
-										locale = languageMap[Object.keys(language)[0]][0];
-										direction = languageMap[Object.keys(language)[0]][1];
-										await loadTranslations(locale, lateUrl);
-										updateLanguages();
-										updateHtml();
-									}}
-								>
-									<Text>
-										<PrimaryText>{Object.keys(language)[0]}</PrimaryText>
-										<SecondaryText>{language[Object.keys(language)[0]]}</SecondaryText>
-									</Text>
-								</Item>
-							{/each}
-						</List>
-					</Menu>
-				</div>
-				<IconButton on:click={switchTheme} toggle bind:pressed={lightTheme}>
-					<Icon class="material-icons-outlined" on>light_mode</Icon>
-					<Icon class="material-icons-outlined">dark_mode</Icon>
+					},
+					removeClass: (className) => {
+						if (anchorClasses[className]) {
+							delete anchorClasses[className];
+							anchorClasses = anchorClasses;
+						}
+					}
+				}}
+				bind:this={anchor}
+			>
+				<IconButton on:click={() => menu.setOpen(true)} aria-label={$t('language')}>
+					<Icon class="material-icons-outlined">language</Icon>
 				</IconButton>
-			</Section>
-		</Row>
-	</TopAppBar>
-	<AutoAdjust
-		{topAppBar}
-		style="display: flex; flex-direction: column; align-items: stretch; margin-inline: 16px; padding-block: 80px 16px;"
-		><slot /></AutoAdjust
-	>
-</div>
+				<Menu
+					bind:this={menu}
+					anchor={false}
+					bind:anchorElement={anchor}
+					anchorCorner="BOTTOM_START"
+					style="max-block-size: 384px"
+				>
+					<List twoLine>
+						{#each languageItems as language}
+							<Item
+								on:SMUI:action={async () => {
+									locale = languageMap[Object.keys(language)[0]][0];
+									direction = languageMap[Object.keys(language)[0]][1];
+									await loadTranslations(locale);
+									updateLanguages();
+									updateHtml();
+								}}
+							>
+								<Text>
+									<PrimaryText>{Object.keys(language)[0]}</PrimaryText>
+									<SecondaryText>{language[Object.keys(language)[0]]}</SecondaryText>
+								</Text>
+							</Item>
+						{/each}
+					</List>
+				</Menu>
+			</div>
+			<IconButton on:click={switchTheme} toggle bind:pressed={lightTheme} aria-label={$t('theme')}>
+				<Icon class="material-icons-outlined" on>light_mode</Icon>
+				<Icon class="material-icons-outlined">dark_mode</Icon>
+			</IconButton>
+		</Section>
+	</Row>
+</TopAppBar>
+<AutoAdjust
+	{topAppBar}
+	style="display: flex; flex-direction: column; align-items: stretch; margin-inline: 16px; padding-block: 80px 16px;"
+	><slot /></AutoAdjust
+>
