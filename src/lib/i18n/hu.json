@@ -1,1 +1,13 @@
-{}
+{
+  "ar": "arab",
+  "en": "angol",
+  "es": "spanyol",
+  "fr": "francia",
+  "hu": "magyar",
+  "it": "olasz",
+  "ja": "japán",
+  "ko": "koreai",
+  "ms": "maláj",
+  "ru": "orosz",
+  "zh-Hans": "egyszerűsített kínai"
+}
