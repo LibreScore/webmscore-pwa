@@ -1,15 +1,15 @@
 {
-    "ar": "Arabisch",
-    "en": "Engels",
-    "es": "Spaans",
-    "fr": "Frans",
-    "hu": "Hongaars",
-    "it": "Italiaans",
-    "ja": "Japans",
-    "ko": "Koreaans",
-    "ms": "Maleis",
-    "nl": "Nederlands",
-    "ru": "Russisch",
-    "zh-Hans": "Chinees (vereenvoudigd)",
-    "full_score": "Volledige partituur"
+  "ar": "Arabisch",
+  "en": "Engels",
+  "es": "Spaans",
+  "fr": "Frans",
+  "hu": "Hongaars",
+  "it": "Italiaans",
+  "ja": "Japans",
+  "ko": "Koreaans",
+  "ms": "Maleis",
+  "nl": "Nederlands",
+  "ru": "Russisch",
+  "zh-Hans": "Chinees (vereenvoudigd)",
+  "full_score": "Volledige partituur"
 }
