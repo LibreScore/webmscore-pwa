@@ -2,7 +2,11 @@
 	import { loadTranslations } from '$lib/i18n/i18n';
 
 	// Object from language name to locale details.
-	let languageMap = { English: ['en', 'ltr'], русский: ['ru', 'ltr'] };
+	let languageMap = {
+		English: ['en', 'ltr'],
+		русский: ['ru', 'ltr'],
+		简体中文: ['zh-Hans', 'ltr']
+	};
 
 	let locale: string = 'en';
 	if (typeof window !== 'undefined') {
@@ -111,7 +115,7 @@
 
 	function updateLanguages() {
 		// Temporary list of language options to alphabetize languageItems.
-		languageItems = [{ English: $t('en') }, { русский: $t('ru') }];
+		languageItems = [{ English: $t('en') }, { русский: $t('ru') }, { 简体中文: $t('zh-Hans') }];
 
 		// Sort the languages alphabetically in the current locale
 		languageItems.sort((a, b) =>
