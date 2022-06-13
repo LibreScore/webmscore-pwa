@@ -3,6 +3,7 @@
 
 	// Object from language name to locale details.
 	let languageMap = {
+		العربية: ['ar', 'rtl'],
 		English: ['en', 'ltr'],
 		русский: ['ru', 'ltr'],
 		简体中文: ['zh-Hans', 'ltr']
@@ -115,7 +116,12 @@
 
 	function updateLanguages() {
 		// Temporary list of language options to alphabetize languageItems.
-		languageItems = [{ English: $t('en') }, { русский: $t('ru') }, { 简体中文: $t('zh-Hans') }];
+		languageItems = [
+			{ العربية: $t('ar') },
+			{ English: $t('en') },
+			{ русский: $t('ru') },
+			{ 简体中文: $t('zh-Hans') }
+		];
 
 		// Sort the languages alphabetically in the current locale
 		languageItems.sort((a, b) =>
