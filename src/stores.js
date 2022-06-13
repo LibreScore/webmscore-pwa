@@ -11,3 +11,5 @@ export const exportOptions = writable({
 });
 
 export const homeState = writable({ convertIsDisabled: true, downloadIsDisabled: true });
+
+export const languageState = writable({ direction: 'ltr' });

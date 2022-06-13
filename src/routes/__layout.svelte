@@ -63,6 +63,7 @@
 </script>
 
 <script lang="ts">
+	import { languageState } from '../stores.js';
 	import TopAppBar, { Row, Section, Title, AutoAdjust } from '@smui/top-app-bar';
 	import IconButton, { Icon } from '@smui/icon-button';
 	import Menu from '@smui/menu';
@@ -74,7 +75,7 @@
 	let menu: MenuComponentDev;
 	let anchor: HTMLDivElement;
 	let anchorClasses: { [k: string]: boolean } = {};
-	let direction = Object.values(languageMap).find((e) => e[0] === locale)?.[1] ?? 'ltr';
+	$languageState.direction = Object.values(languageMap).find((e) => e[0] === locale)?.[1] ?? 'ltr';
 	let topAppBar;
 	let lightTheme =
 		typeof window === 'undefined' || !window.matchMedia('(prefers-color-scheme: light)').matches;
@@ -136,7 +137,7 @@
 		document.documentElement.setAttribute('lang', locale);
 		document.title = $t('webmscore');
 		document.querySelector('meta[name="description"]').setAttribute('content', $t('description'));
-		document.documentElement.setAttribute('dir', direction);
+		document.documentElement.setAttribute('dir', $languageState.direction);
 		if (
 			new RegExp(
 				'[\u0600-\u06FF\u0750-\u077F\u0870-\u089F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0980-\u09FF\u0A80-\u0AFF\u0900-\u097F\uA8E0-\uA8FF\u2E80-\u2EFF\u3000-\u303F\u31C0-\u31EF\u3200-\u32FF\u3300-\u33FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\uFE30-\uFE4F\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u1780-\u17FF\u19E0-\u19FF\u0C80-\u0CFF\u0D00-\u0D7F\u1000-\u109F\uA9E0-\uA9FF\uAA60-\uAA7F\u0D80-\u0DFF\u0B80-\u0BFF\u0C00-\u0C7F\u0E00-\u0E7F]|\uD83B[\uDE00-\uDEFF]|\uD840[\uDC00-\uFFFF]|[\uD841-\uD868][\u0000-\uFFFF]|\uD869[\u0000-\uDEDF]|\uD869[\uDF00-\uFFFF]|[\uD86A-\uD86C][\u0000-\uFFFF]|\uD86D[\u0000-\uDF3F]|\uD86D[\uDF40-\uFFFF]|\uD86E[\u0000-\uDC1F]|\uD86E[\uDC20-\uFFFF]|[\uD86F-\uD872][\u0000-\uFFFF]|\uD873[\u0000-\uDEAF]|\uD873[\uDEB0-\uFFFF]|[\uD874-\uD879][\u0000-\uFFFF]|\uD87A[\u0000-\uDFEF]|\uD87E[\uDC00-\uDE1F]|\uD880[\uDC00-\uFFFF]|[\uD881-\uD883][\u0000-\uFFFF]|\uD884[\u0000-\uDF4F]|\uD804[\uDDE0-\uDDFF]|\uD807[\uDFC0-\uDFFF]'
@@ -190,7 +191,7 @@
 							<Item
 								on:SMUI:action={async () => {
 									locale = languageMap[Object.keys(language)[0]][0];
-									direction = languageMap[Object.keys(language)[0]][1];
+									$languageState.direction = languageMap[Object.keys(language)[0]][1];
 									await loadTranslations(locale);
 									updateLanguages();
 									updateHtml();

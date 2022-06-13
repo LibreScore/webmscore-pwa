@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { exportOptions, homeState } from '../stores.js';
+	import { exportOptions, homeState, languageState } from '../stores.js';
 	import Button, { Group, Label, Icon } from '@smui/button';
 	import Select, { Option } from '@smui/select';
 	import List, { Item } from '@smui/list';
@@ -769,7 +769,11 @@
 					bind:disabled={$homeState.convertIsDisabled}
 					on:click={saveFile}
 				>
-					<Icon class="material-icons-outlined">swap_horiz</Icon>
+					{#if $languageState.direction === 'rtl'}
+						<Icon class="material-icons-outlined" style="transform: scaleX(-1);">swap_horiz</Icon>
+					{:else}
+						<Icon class="material-icons-outlined">swap_horiz</Icon>
+					{/if}
 					<Label>{$t('convert_label')}</Label>
 				</Button>
 				{#if convertIsProcessing}
