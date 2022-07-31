@@ -5,6 +5,7 @@
 	let languageMap = {
 		العربية: ['ar', 'rtl'],
 		English: ['en', 'ltr'],
+		magyar: ['hu', 'ltr'],
 		русский: ['ru', 'ltr'],
 		简体中文: ['zh-Hans', 'ltr']
 	};
@@ -120,6 +121,7 @@
 		languageItems = [
 			{ العربية: $t('ar') },
 			{ English: $t('en') },
+			{ magyar: $t('hu') },
 			{ русский: $t('ru') },
 			{ 简体中文: $t('zh-Hans') }
 		];
