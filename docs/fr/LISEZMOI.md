@@ -2,9 +2,9 @@
 
 &#8206;[العربية](/docs/ar/اقرأني.md) | &#8206;[English](/docs/en/README.md) | &#8206;[español](/docs/es/LÉAME.md) | &#8206;**français** | &#8206;[Melayu](/docs/ms/BACASAYA.md) | &#8206;[[+]](https://librescore.ddns.net/projects/librescore/docs)
 
-[//]: # "\+\_==!|!=_=!|!==_/+/ ***DO NOT EDIT ABOVE THIS LINE*** /+/^^+#|#+^+#|#+^^\+\"
+[//]: # "\+\_==!|!=_=!|!==_/+/ ***NE MODIFIEZ PAS AU-DESSUS DE CETTE LIGNE*** /+/^^+#|#+^+#|#+^^\+\"
 
-# Application Web progressive de Webmscore
+# App Web progressive de Webmscore
 
 L'interface officielle de l'outil webmscore : <https://librescore.github.io>
 
