@@ -4,7 +4,7 @@
 
 [//]: # "\+\_==!|!=_=!|!==_/+/ ***NE MODIFIEZ PAS AU-DESSUS DE CETTE LIGNE*** /+/^^+#|#+^+#|#+^^\+\"
 
-# App Web progressive de Webmscore
+# App web progressive de Webmscore
 
 L'interface officielle de l'outil webmscore : <https://librescore.github.io>
 
