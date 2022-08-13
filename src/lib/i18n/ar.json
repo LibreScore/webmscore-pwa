@@ -62,5 +62,6 @@
   "png_note": "سيتم تصدير كل صفحة من الدرجات المحددة كملف PNG منفصل.",
   "power_tab_editor_files": "ملفات Power Tab Editor",
   "invalid_file_extension_error": "ملحق الملف غير صالح.",
-  "what_to_export": "ما المطلوب تصديره"
+  "what_to_export": "ما المطلوب تصديره",
+  "de": "الألمانية"
 }

@@ -15,5 +15,6 @@
   "nl": "neerlandés",
   "no_options": "Sin opciones.",
   "description": "Interfaz para la herramienta webmscore.",
-  "audio_note": "Cada partitura seleccionada se exportará como un archivo de audio independiente."
+  "audio_note": "Cada partitura seleccionada se exportará como un archivo de audio independiente.",
+  "de": "alemán"
 }
