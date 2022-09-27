@@ -1,1 +1,17 @@
-{}
+{
+  "ar": "arabština",
+  "cs": "čeština",
+  "de": "němčina",
+  "en": "angličtina",
+  "es": "španělština",
+  "fr": "francouzština",
+  "hu": "maďarština",
+  "it": "italština",
+  "ja": "japonština",
+  "ko": "korejština",
+  "ms": "malajština",
+  "nl": "nizozemština",
+  "ru": "ruština",
+  "tr": "turečtina",
+  "zh-Hans": "čínština (zjednodušená)"
+}
