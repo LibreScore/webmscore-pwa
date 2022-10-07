@@ -4,6 +4,7 @@ import i18n from 'sveltekit-i18n';
 const config = {
 	loaders: [
 		{ locale: 'ar', key: '', loader: async () => (await import('./ar.json')).default },
+		{ locale: 'cs', key: '', loader: async () => (await import('./cs.json')).default },
 		{ locale: 'en', key: '', loader: async () => (await import('./en.json')).default },
 		{ locale: 'hu', key: '', loader: async () => (await import('./hu.json')).default },
 		{ locale: 'ru', key: '', loader: async () => (await import('./ru.json')).default },

@@ -4,6 +4,7 @@
 	// Object from language name to locale details.
 	let languageMap = {
 		العربية: ['ar', 'rtl'],
+		čeština: ['cs', 'ltr'],
 		English: ['en', 'ltr'],
 		magyar: ['hu', 'ltr'],
 		русский: ['ru', 'ltr'],
@@ -120,6 +121,7 @@
 		// Temporary list of language options to alphabetize languageItems.
 		languageItems = [
 			{ العربية: $t('ar') },
+			{ čeština: $t('cs') },
 			{ English: $t('en') },
 			{ magyar: $t('hu') },
 			{ русский: $t('ru') },
