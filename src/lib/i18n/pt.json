@@ -1,1 +1,18 @@
-{}
+{
+  "ar": "árabe",
+  "cs": "tcheco",
+  "de": "alemão",
+  "en": "inglês",
+  "es": "espanhol",
+  "fr": "francês",
+  "hu": "húngaro",
+  "it": "italiano",
+  "ja": "japonês",
+  "ko": "coreano",
+  "ms": "malaio",
+  "nl": "holandês",
+  "pt": "português",
+  "ru": "russo",
+  "tr": "turco",
+  "zh-Hans": "chinês simplificado"
+}
