@@ -27,7 +27,7 @@
   "overture_score_writer_files": "Overture / Score Writer 文件",
   "invalid_file_extension_error": "文件扩展名无效。",
   "description": "韦贝姆斯科尔工具的前端。",
-  "no_options": "没有选项。",
+  "no_options": "无选项。",
   "mscx_note": "每个选定的乐谱都将作为单独的未压缩 MuseScore 文件导出。",
   "mscz_note": "每个选定的乐谱都将作为单独的 MuseScore 文件导出。",
   "language": "语言",
