@@ -70,11 +70,10 @@
 	import IconButton, { Icon } from '@smui/icon-button';
 	import Menu from '@smui/menu';
 	import { t } from '$lib/i18n/i18n';
-	import type { MenuComponentDev } from '@smui/menu';
 	import { Anchor } from '@smui/menu-surface';
 	import List, { Item, Text, PrimaryText, SecondaryText } from '@smui/list';
 
-	let menu: MenuComponentDev;
+	let menu: Menu;
 	let anchor: HTMLDivElement;
 	let anchorClasses: { [k: string]: boolean } = {};
 	$languageState.direction = Object.values(languageMap).find((e) => e[0] === locale)?.[1] ?? 'ltr';

@@ -279,13 +279,7 @@
 					scoreBlob: await WebMscore.load(fileExt, new Uint8Array(await blobs.arrayBuffer())).then(
 						async (loaded) => {
 							await loaded.setSoundFont(
-								new Uint8Array(
-									await (
-										await fetch(
-											'https://cdn.jsdelivr.net/gh/musescore/MuseScore@2.1/share/sound/FluidR3Mono_GM.sf3'
-										)
-									).arrayBuffer()
-								)
+								new Uint8Array(await (await fetch('./MS Basic.sf3')).arrayBuffer())
 							);
 							if (!batchMode) {
 								await loaded.generateExcerpts();

@@ -2,9 +2,9 @@
 	"name": "webmscore-pwa",
 	"version": "1.3.25",
 	"scripts": {
-		"dev": "svelte-kit dev",
-		"build": "svelte-kit build",
-		"preview": "svelte-kit preview",
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
@@ -36,8 +36,8 @@
 		"@smui/textfield": "^7.0.0-beta.0",
 		"@smui/tooltip": "^7.0.0-beta.0",
 		"@smui/top-app-bar": "^7.0.0-beta.0",
-		"@sveltejs/adapter-static": "1.0.0-next.39",
-		"@sveltejs/kit": "1.0.0-next.405",
+		"@sveltejs/adapter-static": "^1.0.2",
+		"@sveltejs/kit": "^1.1.0",
 		"@typescript-eslint/eslint-plugin": "^5.48.1",
 		"@typescript-eslint/parser": "^5.48.1",
 		"browser-fs-access": "^0.31.2",
@@ -56,7 +56,7 @@
 		"sveltekit-i18n": "^2.2.2",
 		"tslib": "^2.4.1",
 		"typescript": "^4.9.4",
-		"vite": "^3.0.0",
-		"webmscore": "^1.0.0"
+		"vite": "^4.0.0",
+		"webmscore": "^0.22.0"
 	}
 }
