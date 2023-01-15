@@ -76,6 +76,7 @@
 	let menu: Menu;
 	let anchor: HTMLDivElement;
 	let anchorClasses: { [k: string]: boolean } = {};
+	$languageState.locale = locale ?? 'en';
 	$languageState.direction = Object.values(languageMap).find((e) => e[0] === locale)?.[1] ?? 'ltr';
 	let topAppBar;
 	let lightTheme =
@@ -194,6 +195,7 @@
 							<Item
 								on:SMUI:action={async () => {
 									locale = languageMap[Object.keys(language)[0]][0];
+									$languageState.locale = locale;
 									$languageState.direction = languageMap[Object.keys(language)[0]][1];
 									await loadTranslations(locale);
 									updateLanguages();
