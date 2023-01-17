@@ -39,7 +39,7 @@
 	// $: oldFiles = [];
 	//@ts-ignore
 	let msczMetadatas: String[];
-	$: msczMetadatas = [$t('no_file_metadata')];
+	// $: msczMetadatas = [$t('no_file_metadata')];
 	let fileNames: String[] = [$t('no_file_loaded')];
 	$: fileNames = isFileLoaded === false ? [$t('no_file_loaded')] : fileNames;
 	let errorMessage = $t('unknown_error');
@@ -232,17 +232,21 @@
 			return;
 		}
 
+		return handleUploads(files);
+	}
+
+	async function handleUploads(inputFiles: File[]) {
 		scores = [];
 		titles = [];
 		msczMetadatas = [];
 		fileNames = [];
 		let tempScores = [];
 
-		batchMode = files.length > 1 ? true : false;
+		batchMode = inputFiles.length > 1 ? true : false;
 
-		oldFiles = files;
+		oldFiles = inputFiles;
 
-		for (let [index, blobs] of files.entries()) {
+		for (let [index, blobs] of inputFiles.entries()) {
 			let fileExt = blobs.name.substring(blobs.name.lastIndexOf('.') + 1);
 			if (fileExt === 'mid') {
 				fileExt = 'midi';
@@ -276,7 +280,7 @@
 			WebMscore.ready.then(async () => {
 				fileIsLoading = true;
 				tempScores.push({
-					scoreBlob: await WebMscore.load(fileExt, new Uint8Array(await blobs.arrayBuffer())).then(
+					scoreBlob: await WebMscore.load(fileExt as any, new Uint8Array(await blobs.arrayBuffer())).then(
 						async (loaded) => {
 							await loaded.setSoundFont(
 								new Uint8Array(await (await fetch('./MS Basic.sf3')).arrayBuffer())
@@ -298,7 +302,7 @@
 					),
 					scoreIndex: index
 				});
-				if (tempScores.length === files.length) {
+				if (tempScores.length === inputFiles.length) {
 					msczMetadatas.sort(
 						(a, b) =>
 							tempScores[msczMetadatas.indexOf(a)].scoreIndex -
@@ -721,6 +725,16 @@
 			}
 		}
 	}
+
+	// make `handleUploads` globally available
+	// TODO: use `globalThis`
+	window['handleUploads'] = handleUploads;
+
+	// have preloaded files
+	if (window?.['preloadedUploads']?.length > 0) {
+		handleUploads(window['preloadedUploads']);
+	}
+	window['preloadedUploads'] = [] as File[];
 </script>
 
 <Snackbar bind:this={loadingSnackbar}>
