@@ -140,16 +140,15 @@
 			{
 				mimeTypes: [
 					'application/x-musescore',
-					'application/x-musescore+xml',
 					'application/vnd.recordare.musicxml',
 					'application/vnd.recordare.musicxml+xml',
 					'audio/midi',
 					'audio/x-gtp',
 					'audio/x-ptb'
+					'application/x-musescore+xml',
 				],
 				extensions: [
 					'.mscz',
-					'.mscx',
 					'.mxl',
 					'.musicxml',
 					'.xml',
@@ -163,14 +162,15 @@
 					'.gpx',
 					'.gp',
 					'.ptb'
+					'.mscx',
 				],
 				description: $t('all_supported_files'),
 				id: 'uploads',
 				multiple: true
 			},
 			{
-				mimeTypes: ['application/x-musescore', 'application/x-musescore+xml'],
-				extensions: ['.mscz', '.mscx'],
+				mimeTypes: ['application/x-musescore'],
+				extensions: ['.mscz'],
 				description: $t('musescore_files')
 			},
 			{
@@ -183,31 +183,31 @@
 				extensions: ['.mid', '.midi', '.kar'],
 				description: $t('midi_files')
 			},
-			{
-				mimeTypes: ['application/x-musedata'],
-				extensions: ['.md'],
-				description: $t('musedata_files')
-			},
-			{
-				mimeTypes: ['application/x-capella'],
-				extensions: ['.cap', '.capx'],
-				description: $t('capella_files')
-			},
-			{
-				mimeTypes: ['application/x-biab'],
-				extensions: ['.mgu', '.sgu'],
-				description: $t('bb_files') + $t('experimental')
-			},
-			{
-				mimeTypes: ['application/x-overture'],
-				extensions: ['.ove', '.scw'],
-				description: $t('overture_score_writer_files') + $t('experimental')
-			},
-			{
-				mimeTypes: ['application/x-bww'],
-				extensions: ['.bmw', '.bww'],
-				description: $t('bagpipe_music_writer_files') + $t('experimental')
-			},
+			// {
+			// 	mimeTypes: ['application/x-musedata'],
+			// 	extensions: ['.md'],
+			// 	description: $t('musedata_files')
+			// },
+			// {
+			// 	mimeTypes: ['application/x-capella'],
+			// 	extensions: ['.cap', '.capx'],
+			// 	description: $t('capella_files')
+			// },
+			// {
+			// 	mimeTypes: ['application/x-biab'],
+			// 	extensions: ['.mgu', '.sgu'],
+			// 	description: $t('bb_files') + $t('experimental')
+			// },
+			// {
+			// 	mimeTypes: ['application/x-overture'],
+			// 	extensions: ['.ove', '.scw'],
+			// 	description: $t('overture_score_writer_files') + $t('experimental')
+			// },
+			// {
+			// 	mimeTypes: ['application/x-bww'],
+			// 	extensions: ['.bmw', '.bww'],
+			// 	description: $t('bagpipe_music_writer_files') + $t('experimental')
+			// },
 			{
 				mimeTypes: ['audio/x-gtp'],
 				extensions: ['.gtp', '.gp3', '.gp4', '.gp5', '.gpx', '.gp'],
@@ -219,8 +219,17 @@
 				description: $t('power_tab_editor_files') + $t('experimental')
 			}
 			// {
-			// 	mimeTypes: ['application/x-musescore', 'application/x-musescore+xml'],
-			// 	extensions: ['.mscz,', '.mscx,'],
+			// 	mimeTypes: ['application/x-musescore+xml'],
+			// 	extensions: ['.mscx'],
+			// 	description: $t('musescore_folder_files') + $t('experimental')
+			// },
+			// {
+			// 	extensions: ['.mscs'],
+			// 	description: $t('musescore_developer_files')
+			// },
+			// {
+			// 	mimeTypes: ['application/x-musescore'],
+			// 	extensions: ['.mscz~'],
 			// 	description: $t('musescore_backup_files')
 			// }
 		]).catch(() => {
