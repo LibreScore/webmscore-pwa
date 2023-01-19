@@ -144,7 +144,7 @@
 					'application/vnd.recordare.musicxml+xml',
 					'audio/midi',
 					'audio/x-gtp',
-					'audio/x-ptb'
+					'audio/x-ptb',
 					'application/x-musescore+xml',
 				],
 				extensions: [
@@ -161,7 +161,7 @@
 					'.gp5',
 					'.gpx',
 					'.gp',
-					'.ptb'
+					'.ptb',
 					'.mscx',
 				],
 				description: $t('all_supported_files'),
