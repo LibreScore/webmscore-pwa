@@ -39,7 +39,7 @@
 	// $: oldFiles = [];
 	//@ts-ignore
 	let msczMetadatas: String[];
-	$: msczMetadatas = [$t('no_file_metadata')];
+	// $: msczMetadatas = [$t('no_file_metadata')];
 	let fileNames: String[] = [$t('no_file_loaded')];
 	$: fileNames = isFileLoaded === false ? [$t('no_file_loaded')] : fileNames;
 	let errorMessage = $t('unknown_error');
@@ -140,37 +140,37 @@
 			{
 				mimeTypes: [
 					'application/x-musescore',
-					'application/x-musescore+xml',
 					'application/vnd.recordare.musicxml',
 					'application/vnd.recordare.musicxml+xml',
-					// 'audio/midi',
+					'audio/midi',
 					'audio/x-gtp',
-					'audio/x-ptb'
+					'audio/x-ptb',
+					'application/x-musescore+xml',
 				],
 				extensions: [
 					'.mscz',
-					'.mscx',
 					'.mxl',
 					'.musicxml',
 					'.xml',
-					// '.mid',
-					// '.midi',
-					// '.kar',
+					'.mid',
+					'.midi',
+					'.kar',
 					'.gtp',
 					'.gp3',
 					'.gp4',
 					'.gp5',
 					'.gpx',
 					'.gp',
-					'.ptb'
+					'.ptb',
+					'.mscx',
 				],
 				description: $t('all_supported_files'),
 				id: 'uploads',
 				multiple: true
 			},
 			{
-				mimeTypes: ['application/x-musescore', 'application/x-musescore+xml'],
-				extensions: ['.mscz', '.mscx'],
+				mimeTypes: ['application/x-musescore'],
+				extensions: ['.mscz'],
 				description: $t('musescore_files')
 			},
 			{
@@ -178,11 +178,11 @@
 				extensions: ['.mxl', '.musicxml', '.xml'],
 				description: $t('musicxml_files')
 			},
-			// {
-			// 	mimeTypes: ['audio/midi'],
-			// 	extensions: ['.mid', '.midi', '.kar'],
-			// 	description: $t('midi_files')
-			// },
+			{
+				mimeTypes: ['audio/midi'],
+				extensions: ['.mid', '.midi', '.kar'],
+				description: $t('midi_files')
+			},
 			// {
 			// 	mimeTypes: ['application/x-musedata'],
 			// 	extensions: ['.md'],
@@ -219,8 +219,17 @@
 				description: $t('power_tab_editor_files') + $t('experimental')
 			}
 			// {
-			// 	mimeTypes: ['application/x-musescore', 'application/x-musescore+xml'],
-			// 	extensions: ['.mscz,', '.mscx,'],
+			// 	mimeTypes: ['application/x-musescore+xml'],
+			// 	extensions: ['.mscx'],
+			// 	description: $t('musescore_folder_files') + $t('experimental')
+			// },
+			// {
+			// 	extensions: ['.mscs'],
+			// 	description: $t('musescore_developer_files')
+			// },
+			// {
+			// 	mimeTypes: ['application/x-musescore'],
+			// 	extensions: ['.mscz~'],
 			// 	description: $t('musescore_backup_files')
 			// }
 		]).catch(() => {
@@ -232,17 +241,21 @@
 			return;
 		}
 
+		return handleUploads(files);
+	}
+
+	async function handleUploads(inputFiles: File[]) {
 		scores = [];
 		titles = [];
 		msczMetadatas = [];
 		fileNames = [];
 		let tempScores = [];
 
-		batchMode = files.length > 1 ? true : false;
+		batchMode = inputFiles.length > 1 ? true : false;
 
-		oldFiles = files;
+		oldFiles = inputFiles;
 
-		for (let [index, blobs] of files.entries()) {
+		for (let [index, blobs] of inputFiles.entries()) {
 			let fileExt = blobs.name.substring(blobs.name.lastIndexOf('.') + 1);
 			if (fileExt === 'mid') {
 				fileExt = 'midi';
@@ -276,7 +289,7 @@
 			WebMscore.ready.then(async () => {
 				fileIsLoading = true;
 				tempScores.push({
-					scoreBlob: await WebMscore.load(fileExt, new Uint8Array(await blobs.arrayBuffer())).then(
+					scoreBlob: await WebMscore.load(fileExt as any, new Uint8Array(await blobs.arrayBuffer())).then(
 						async (loaded) => {
 							await loaded.setSoundFont(
 								new Uint8Array(await (await fetch('./MS Basic.sf3')).arrayBuffer())
@@ -298,7 +311,7 @@
 					),
 					scoreIndex: index
 				});
-				if (tempScores.length === files.length) {
+				if (tempScores.length === inputFiles.length) {
 					msczMetadatas.sort(
 						(a, b) =>
 							tempScores[msczMetadatas.indexOf(a)].scoreIndex -
@@ -721,6 +734,16 @@
 			}
 		}
 	}
+
+	// make `handleUploads` globally available
+	// TODO: use `globalThis`
+	window['handleUploads'] = handleUploads;
+
+	// have preloaded files
+	if (window?.['preloadedUploads']?.length > 0) {
+		handleUploads(window['preloadedUploads']);
+	}
+	window['preloadedUploads'] = [] as File[];
 </script>
 
 <Snackbar bind:this={loadingSnackbar}>
