@@ -6,7 +6,7 @@
 
 # Webmscore PWA
 
-A webmscore eszköz hivatalos kezelőfelülete: <https://librescore.github.io>
+The official frontend for the webmscore tool: <https://webmscore-pwa.librescore.org>
 
 ## Fejlesztés
 
