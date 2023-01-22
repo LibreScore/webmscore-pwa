@@ -94,10 +94,10 @@
 		}
 
 		// @ts-ignore
-		themeLink.href = `/smui${lightTheme ? '' : '-dark'}.css`;
+		themeLink.href = `./smui${lightTheme ? '' : '-dark'}.css`;
 
 		document.head
-			.querySelector('link[href="/smui-dark.css"]')
+			.querySelector('link[href="./smui-dark.css"]')
 			.insertAdjacentElement('afterend', themeLink);
 
 		document

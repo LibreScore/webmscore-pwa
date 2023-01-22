@@ -292,7 +292,7 @@
 					scoreBlob: await WebMscore.load(fileExt as any, new Uint8Array(await blobs.arrayBuffer())).then(
 						async (loaded) => {
 							await loaded.setSoundFont(
-								new Uint8Array(await (await fetch('./MS Basic.sf3')).arrayBuffer())
+								new Uint8Array(await (await fetch('./MS_Basic.sf3')).arrayBuffer())
 							);
 							if (!batchMode) {
 								await loaded.generateExcerpts();
