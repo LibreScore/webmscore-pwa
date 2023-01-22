@@ -6,7 +6,7 @@
 
 # App web progressive de Webmscore
 
-The official frontend for the webmscore tool: <https://webmscore-pwa.librescore.org>
+L'interface officielle de l'outil webmscore : <https://webmscore-pwa.librescore.org>
 
 ## Développement
 

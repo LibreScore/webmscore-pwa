@@ -6,7 +6,7 @@
 
 # PWA Webmscore
 
-The official frontend for the webmscore tool: <https://webmscore-pwa.librescore.org>
+Bahagian hadapan rasmi untuk alat webmscore: <https://webmscore-pwa.librescore.org>
 
 ## Membangunkan
 
