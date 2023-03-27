@@ -8,7 +8,8 @@
 		English: ['en', 'ltr'],
 		magyar: ['hu', 'ltr'],
 		русский: ['ru', 'ltr'],
-		简体中文: ['zh-Hans', 'ltr']
+		简体中文: ['zh-Hans', 'ltr'],
+		繁體中文: ['zh-Hant', 'ltr']
 	};
 
 	let locale: string = 'en';
@@ -125,7 +126,8 @@
 			{ English: $t('en') },
 			{ magyar: $t('hu') },
 			{ русский: $t('ru') },
-			{ 简体中文: $t('zh-Hans') }
+			{ 简体中文: $t('zh-Hans') },
+			{ 繁體中文: $t('zh-Hant') }
 		];
 
 		// Sort the languages alphabetically in the current locale

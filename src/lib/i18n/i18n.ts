@@ -8,7 +8,8 @@ const config = {
 		{ locale: 'en', key: '', loader: async () => (await import('./en.json')).default },
 		{ locale: 'hu', key: '', loader: async () => (await import('./hu.json')).default },
 		{ locale: 'ru', key: '', loader: async () => (await import('./ru.json')).default },
-		{ locale: 'zh-Hans', key: '', loader: async () => (await import('./zh-Hans.json')).default }
+		{ locale: 'zh-Hans', key: '', loader: async () => (await import('./zh-Hans.json')).default },
+		{ locale: 'zh-Hant', key: '', loader: async () => (await import('./zh-Hant.json')).default }
 	],
 	fallbackLocale: 'en'
 };
