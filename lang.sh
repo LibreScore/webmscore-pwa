@@ -7,6 +7,14 @@ I18N_PATH="./src/lib/i18n"
 TRANSLATION_PERCENTAGE=0.9
 
 #* STEP 1
+for file in $I18N_PATH/*.json; do
+    filename=${file##*/}
+    filename=${filename%%\.*}
+    filename=${filename//_/-}
+    mv $file $(dirname $file)/$filename.json
+done
+
+#* STEP 2
 shopt -s nullglob
 
 for json in $I18N_PATH/*.json; do
@@ -20,7 +28,7 @@ for json in $I18N_PATH/*.json; do
     done
 done
 
-#* STEP 2
+#* STEP 3
 skipped_languages=""
 for file in $I18N_PATH/*.json; do
     if [[ $(awk "BEGIN {print $(jq length $file) < $TRANSLATION_PERCENTAGE*$(jq length $I18N_PATH/en.json)}") == 1 ]]; then
@@ -30,7 +38,7 @@ for file in $I18N_PATH/*.json; do
     fi
 done
 
-#* STEP 3
+#* STEP 4
 map_first_line=$(awk '/'"languageMap = \{"'/,/'"\};"'/ {printf NR "\n"}' src/routes/+layout.svelte | head -n 1)
 map_last_line=$(awk '/'"languageMap = \{"'/,/'"\};"'/ {printf NR "\n"}' src/routes/+layout.svelte | tail -n 1 | head -n 1)
 sed -i "${map_first_line},${map_last_line}d" src/routes/+layout.svelte
@@ -61,7 +69,7 @@ sed -i "${map_first_line}s"'/$/'"};"'/' src/routes/+layout.svelte
 sed -i "${items_first_line}s"'/$/'"];"'/' src/routes/+layout.svelte
 sed -i "${i18n_first_line}s"'/$/'"],"'/' src/lib/i18n/i18n.ts
 
-#* STEP 4
+#* STEP 5
 prettier --write ./src/lib/i18n/i18n.ts
 prettier --write ./src/routes/+layout.svelte
 
