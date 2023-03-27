@@ -119,7 +119,14 @@
 
 	function updateLanguages() {
 		// Temporary list of language options to alphabetize languageItems.
-languageItems = [{ العربية: $t('ar') },{ čeština: $t('cs') },{ English: $t('en') },{ magyar: $t('hu') },{ русский: $t('ru') },{ 简体中文: $t('zh-Hans') },{ : $t('zh_Hant') },];
+		languageItems = [
+			{ العربية: $t('ar') },
+			{ čeština: $t('cs') },
+			{ English: $t('en') },
+			{ magyar: $t('hu') },
+			{ русский: $t('ru') },
+			{ 简体中文: $t('zh-Hans') }
+		];
 
 		// Sort the languages alphabetically in the current locale
 		languageItems.sort((a, b) =>
