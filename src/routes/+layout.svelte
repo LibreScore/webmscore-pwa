@@ -2,7 +2,14 @@
 	import { loadTranslations } from '$lib/i18n/i18n';
 
 	// Object from language name to locale details.
-let languageMap = {العربية: ['ar', 'rtl'],čeština: ['cs', 'ltr'],English: ['en', 'ltr'],magyar: ['hu', 'ltr'],русский: ['ru', 'ltr'],简体中文: ['zh-Hans', 'ltr'],: ['zh_Hant', 'ltr'],};
+	let languageMap = {
+		العربية: ['ar', 'rtl'],
+		čeština: ['cs', 'ltr'],
+		English: ['en', 'ltr'],
+		magyar: ['hu', 'ltr'],
+		русский: ['ru', 'ltr'],
+		简体中文: ['zh-Hans', 'ltr']
+	};
 
 	let locale: string = 'en';
 	if (typeof window !== 'undefined') {
