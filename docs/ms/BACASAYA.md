@@ -1,8 +1,8 @@
 <div dir="ltr" align="left">
 
-‎[English](/docs/en/README.md) | ‎[español](/docs/es/LÉAME.md) | ‎[français](/docs/fr/LISEZMOI.md) | ‎[magyar](/docs/hu/OLVASSAEL.md) | ‎**Melayu** | ‎[[+]](https://weblate.librescore.org/projects/librescore/docs)
+‎[العربية](/docs/ar/اقرأني.md) | ‎[English](/docs/en/README.md) | ‎[español](/docs/es/LÉAME.md) | ‎[français](/docs/fr/LISEZMOI.md) | ‎[magyar](/docs/hu/OLVASSAEL.md) | ‎**Melayu** | ‎[[+]](https://weblate.librescore.org/projects/librescore/docs)
 
-[//]: # "\+\_==!|!=_=!|!==_/+/ ***DO NOT EDIT ABOVE THIS LINE*** /+/^^+#|#+^+#|#+^^\+\"
+[//]: # "\+\_==!|!=_=!|!==_/+/ ***JANGAN EDIT DI ATAS BARIS INI*** /+/^^+#|#+^+#|#+^^\+\"
 
 # PWA Webmscore
 

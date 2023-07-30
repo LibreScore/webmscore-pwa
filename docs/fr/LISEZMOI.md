@@ -1,8 +1,8 @@
 <div dir="ltr" align="left">
 
-‎[English](/docs/en/README.md) | ‎[español](/docs/es/LÉAME.md) | ‎**français** | ‎[magyar](/docs/hu/OLVASSAEL.md) | ‎[Melayu](/docs/ms/BACASAYA.md) | ‎[[+]](https://weblate.librescore.org/projects/librescore/docs)
+‎[العربية](/docs/ar/اقرأني.md) | ‎[English](/docs/en/README.md) | ‎[español](/docs/es/LÉAME.md) | ‎**français** | ‎[magyar](/docs/hu/OLVASSAEL.md) | ‎[Melayu](/docs/ms/BACASAYA.md) | ‎[[+]](https://weblate.librescore.org/projects/librescore/docs)
 
-[//]: # "\+\_==!|!=_=!|!==_/+/ ***DO NOT EDIT ABOVE THIS LINE*** /+/^^+#|#+^+#|#+^^\+\"
+[//]: # "\+\_==!|!=_=!|!==_/+/ ***NE MODIFIEZ PAS AU-DESSUS DE CETTE LIGNE*** /+/^^+#|#+^+#|#+^^\+\"
 
 # App web progressive de Webmscore
 
