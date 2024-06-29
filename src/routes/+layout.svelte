@@ -2,7 +2,7 @@
 	import { loadTranslations } from '$lib/i18n/i18n';
 
 	// Object from language name to locale details.
-let languageMap = {العربية: ['ar', 'rtl'],čeština: ['cs', 'ltr'],English: ['en', 'ltr'],magyar: ['hu', 'ltr'],русский: ['ru', 'ltr'],简体中文: ['zh-Hans', 'ltr'],繁體中文: ['zh-Hant', 'ltr'],};
+let languageMap = {العربية: ['ar', 'rtl'],čeština: ['cs', 'ltr'],Deutsch: ['de', 'ltr'],English: ['en', 'ltr'],español: ['es', 'ltr'],français: ['fr', 'ltr'],magyar: ['hu', 'ltr'],Indonesia: ['id', 'ltr'],italiano: ['it', 'ltr'],日本語: ['ja', 'ltr'],한국어: ['ko', 'ltr'],Melayu: ['ms', 'ltr'],Nederlands: ['nl', 'ltr'],polski: ['pl', 'ltr'],português: ['pt', 'ltr'],русский: ['ru', 'ltr'],Türkçe: ['tr', 'ltr'],简体中文: ['zh-Hans', 'ltr'],繁體中文: ['zh-Hant', 'ltr'],};
 
 	let locale: string = 'en';
 	if (typeof window !== 'undefined') {
@@ -112,7 +112,7 @@ let languageMap = {العربية: ['ar', 'rtl'],čeština: ['cs', 'ltr'],Englis
 
 	function updateLanguages() {
 		// Temporary list of language options to alphabetize languageItems.
-languageItems = [{ العربية: $t('ar') },{ čeština: $t('cs') },{ English: $t('en') },{ magyar: $t('hu') },{ русский: $t('ru') },{ 简体中文: $t('zh-Hans') },{ 繁體中文: $t('zh-Hant') },];
+languageItems = [{ العربية: $t('ar') },{ čeština: $t('cs') },{ Deutsch: $t('de') },{ English: $t('en') },{ español: $t('es') },{ français: $t('fr') },{ magyar: $t('hu') },{ Indonesia: $t('id') },{ italiano: $t('it') },{ 日本語: $t('ja') },{ 한국어: $t('ko') },{ Melayu: $t('ms') },{ Nederlands: $t('nl') },{ polski: $t('pl') },{ português: $t('pt') },{ русский: $t('ru') },{ Türkçe: $t('tr') },{ 简体中文: $t('zh-Hans') },{ 繁體中文: $t('zh-Hant') },];
 
 		// Sort the languages alphabetically in the current locale
 		languageItems.sort((a, b) =>
