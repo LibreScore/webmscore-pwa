@@ -31,7 +31,7 @@ jobs:
           mv ./build/app.html ./build/index.html
           # touch ./build/.nojeykll
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: ./build/
           retention-days: 40
